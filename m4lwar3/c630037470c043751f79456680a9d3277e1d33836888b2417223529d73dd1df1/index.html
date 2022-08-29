@@ -1,0 +1,336 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content="map[name:d42kw01f]"><meta name=description content="TrojanDownloaderJSIstbar!atmn Malware Reverse Engineering"><meta name=keywords content="cyber security,malware reverse engineering,pen test,malware,RE,Reverse Engineering"><meta name=robots content="noodp"><meta name=theme-color content><link rel=canonical href=https://d42kw01f.github.io/m4lwar3/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/><title>08b44dd7d868798024667ade4158d3b2 :: d42kw01f</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=https://d42kw01f.github.io/main.4e5c639214707eff609bb55fe49e183dee42258a73bc90e4cc7b0a84f900798a.css><link rel=apple-touch-icon sizes=180x180 href=https://d42kw01f.github.io/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://d42kw01f.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://d42kw01f.github.io/favicon-16x16.png><link rel=manifest href=https://d42kw01f.github.io/site.webmanifest><link rel=mask-icon href=https://d42kw01f.github.io/safari-pinned-tab.svg color><link rel="shortcut icon" href=https://d42kw01f.github.io/favicon.ico><meta name=msapplication-TileColor content><meta itemprop=name content="08b44dd7d868798024667ade4158d3b2"><meta itemprop=description content="TrojanDownloaderJSIstbar!atmn Malware Reverse Engineering"><meta itemprop=datePublished content="2021-02-19T00:00:00+00:00"><meta itemprop=dateModified content="2021-02-19T00:00:00+00:00"><meta itemprop=wordCount content="3019"><meta itemprop=image content="https://d42kw01f.github.io/img/image.jpg"><meta itemprop=keywords content="malware,RE,Reverse Engineering,"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://d42kw01f.github.io/img/image.jpg"><meta name=twitter:title content="08b44dd7d868798024667ade4158d3b2"><meta name=twitter:description content="TrojanDownloaderJSIstbar!atmn Malware Reverse Engineering"><meta property="og:title" content="08b44dd7d868798024667ade4158d3b2"><meta property="og:description" content="TrojanDownloaderJSIstbar!atmn Malware Reverse Engineering"><meta property="og:type" content="article"><meta property="og:url" content="https://d42kw01f.github.io/m4lwar3/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/"><meta property="og:image" content="https://d42kw01f.github.io/img/image.jpg"><meta property="article:section" content="m4lwar3"><meta property="article:published_time" content="2021-02-19T00:00:00+00:00"><meta property="article:modified_time" content="2021-02-19T00:00:00+00:00"><meta property="og:see_also" content="https://d42kw01f.github.io/m4lwar3/472b720c0a8b4a0947441f43ce9982fc27f03811d2009f6128b4cd9c90a45286/"><meta property="article:section" content="malware"><meta property="article:section" content="RE"><meta property="article:published_time" content="2021-02-19 00:00:00 +0000 UTC"></head><body><div class=container><header class=header><span class=header__inner><a href=https://d42kw01f.github.io/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>$ cd ~</span>
+<span class=logo__cursor style=background-color:#67a2c9></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=https://d42kw01f.github.io/wr1t3up/>1.wr1t3up</a></li><li><a href=https://d42kw01f.github.io/m4lwar3/>2.m4lwar3</a></li><li><a href=https://d42kw01f.github.io/0th3r/>3.0th3r</a></li><li><a href=https://d42kw01f.github.io/about/>4b0ut M3</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info></p></div><article><h2 class=post-title><a href=https://d42kw01f.github.io/m4lwar3/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/>08b44dd7d868798024667ade4158d3b2</a></h2><div class=post-content><hr><h2 id=executive-summary>Executive Summary</h2><p>The given malware was analyse using various static, dynamic and automated analysistechniques. This is a Windows Operating system target spyware. Like the first malware sample,this malware sample could reach a computer using patched freeware or shareware. However, Social engineering could also play a role to get into a personal computer. The complete malware behaviour was not analysed due to the given limited time. However, with uses of different automated sandboxes, malware behaviour has been analysed up to some extent. Unlike the first malware sample there is not enough evidence to confirm that browser hijacking takes place.
+Nonetheless, it also collects the victim’s sensitive information such as web browser cookies,password hashes, usernames, history, etc, and sends them to a remote server in Russia.
+This malware is a 32-bit executable that was created around 2017. However, some of itsbehaviours are now obsolete. For instance: some domains that it supposes to contact are now
+for sale.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/blockey.png alt="Image 1: blockey.ru website">
+This malware sample can be considered as an unpacked malware. Even though, it has considerably higher entropy. Moreover, updated windows defender software has the ability to detect this based on its signature and delete it automatically. Therefore, if the PC is up to date.
+The threat from this malware is extremely low. However, this malware threat increases rapidly as soon as the computer is infected. According to virustotal information, there are 55 engines that have the ability to detect this malware. And this malware normally comes to the PC with the name of “Allavsoft Video Downloader Converter 3.14.6.exe”. Interestingly, this malware has a valid signature.
+Furthermore, as interesting key behaviours of this malware, it checks victim computer network adapters and monitors victim computer traffic flow. This malware has a long sleep time which allow the malware to stay in PC unsuspiciously.</p><h2 id=identification-of-malware-sample>Identification of malware sample</h2><p>The Second malware sample is also a 32bit PE executable which targets only Microsoft Window (GUI) with Intel 368 or later process. MS Visual C++ has been used as the main TRiD. This malware’s file size is 194.7Kb which is around 199368Bytes. And this is a signed file with valid signatures in it. According to the PE Studio the malware’s complied stump is 2017 June 09. Which is a relatively new date.
+This malware was written in C++. And this includes raw COFF/OMF content. In Virustotal.com, 47 engines detected this file as a malicious file.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/Virustotal.png alt="Image 2: VirusTotal View"></p><p>And primarily, Virustotal suggests the name of “Allavsoft Video Downloader Converter
+3.14.6.exe” to identify the malware. However, different anti-malware has some different name to
+this malware. Here are some names by famous engineers and its names.</p><table><thead><tr><th>Anti-Virus</th><th>Names</th></tr></thead><tbody><tr><td>Ad-Aware</td><td>Gen:Variant.Mikey.114520</td></tr><tr><td>Avast</td><td>Win32:AdwareSig [Adw]</td></tr><tr><td>Kaspaskey</td><td>Not-a-virus:HEUR:AdWare.Win32.Generic</td></tr><tr><td>Microsoft</td><td>SoftwareBundler:Win32/InstallMonster</td></tr><tr><td>Comodo</td><td>TrojWare.Win32.TrojanDownloader.Tovkater.G@72ttyk</td></tr><tr><td>BitDefender</td><td>Gen:Variant.Mikey.114520</td></tr></tbody></table><p>Microsoft Visual C++ 8 can be classified as the compiler or the packer in this malware.
+Russian has been used as the language of this malware and the computer which this malware
+was written with. However, some resources of the malware have different languages. For
+example: the version has Japanese language. Another important detail of this malware is its
+entropy, this malware contains 6.829 entropy. Thus, this malware is possibly packed. However,
+This report dive into its depths later.</p><table><thead><tr><th>Hashes</th><th>Values</th></tr></thead><tbody><tr><td>MD5</td><td>08b44dd7d868798024667ade4158d3b2</td></tr><tr><td>SHA1</td><td>7465f185e85cd898799189fe168908c462674c70</td></tr><tr><td>SHA256</td><td>c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1</td></tr><tr><td>VHASH</td><td>015056655d15556az437z1dz6fz</td></tr><tr><td>PE header hash</td><td>f9ec15ca0a2401b65274823ebd2852ef</td></tr></tbody></table><p>And Here is the output of the HashMyFile tool with the second malware sample.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/HashMyFile.png alt="Image 3: HashMyFile"></p><p>This malware contains rich file headers:
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/FileHeader1.png alt="Image 4: FileHeader">
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/FileHeader2.png alt="Image 5: FileHeader"></p><p>Furthermore, this file contains 5 sections, which are:</p><ol><li>.text</li><li>.rdata</li><li>.data</li><li>.rsrc</li><li>recl</li></ol><p>However, these sections do not have a high number of entropies.</p><table><thead><tr><th>Section Name</th><th>Address</th><th>Size</th><th>MD5</th><th>Entropy</th></tr></thead><tbody><tr><td>.text</td><td>4096</td><td>23628</td><td>856b32eb77dfd6fb67f21d6543272da5</td><td>6.58</td></tr><tr><td>.rdata</td><td>28672</td><td>4764</td><td>dc77f8a1e6985a4361c55642680ddb4f</td><td>4.7</td></tr><tr><td>.data</td><td>36964</td><td>154712</td><td>7922d4ce117d7d5b3ac2cffe4b0b5e4f</td><td>3.41</td></tr><tr><td>.rsrc</td><td>19251</td><td>53248</td><td>d41d8cd98f00b204e9800998ecf8427e</td><td>5.67</td></tr><tr><td>.recl</td><td>245760</td><td>16544</td><td>85e752ec6d1949cb89f43e1cb6da4b54</td><td>6.356</td></tr></tbody></table><h2 id=details-of-architecture-targeted-by-malware>Details of architecture targeted by malware.</h2><p>As this report mentioned earlier, This malware only targets Microsoft Windows GUI
+subsystem with intel 80236 32-bit architecture. Furthermore, the targeted endianness is little
+endianness. And here is the malware manifest. This reveal which useful information about the
+target architecture.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; standalone=&#34;yes&#34;?&gt;</span><span style=color:#f92672>&lt;assembly</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;urn:schemas-
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>microsoft-com:asm.v1&#34;</span> <span style=color:#a6e22e>manifestVersion=</span><span style=color:#e6db74>&#34;1.0&#34;</span> <span style=color:#a6e22e>xmlns:asmv3=</span><span style=color:#e6db74>&#34;urn:schemas-microsoft-
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com:asm.v3&#34;</span><span style=color:#f92672>&gt;&lt;dependency&gt;&lt;dependentAssembly&gt;&lt;assemblyIdentity</span> <span style=color:#a6e22e>type=</span><span style=color:#e6db74>&#34;win32&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Microsoft.Windows.Common-Controls&#34;</span> <span style=color:#a6e22e>version=</span><span style=color:#e6db74>&#34;6.0.0.0&#34;</span> <span style=color:#a6e22e>language=</span><span style=color:#e6db74>&#34;*&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>processorArchitecture=</span><span style=color:#e6db74>&#34;x86&#34;</span> <span style=color:#a6e22e>publicKeyToken=</span><span style=color:#e6db74>&#34;6595b64144ccf1df&#34;</span> <span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependentAssembly&gt;&lt;/dependency&gt;&lt;compatibility</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;urn:schemas-microsoft-
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com:compatibility.v1&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;application&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!-- Windows Vista --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;supportedOS</span> <span style=color:#a6e22e>Id=</span><span style=color:#e6db74>&#34;{e2011457-1546-43c5-a5fe-008deee3d3f0}&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!-- Windows 7 --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;supportedOS</span> <span style=color:#a6e22e>Id=</span><span style=color:#e6db74>&#34;{35138b9a-5d96-4fbd-8e2d-a2440225f93a}&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!-- Windows 8 --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;supportedOS</span> <span style=color:#a6e22e>Id=</span><span style=color:#e6db74>&#34;{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!-- Windows 8.1 --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;supportedOS</span> <span style=color:#a6e22e>Id=</span><span style=color:#e6db74>&#34;{1f676c76-80e1-4239-95bb-83d0f6d0da78}&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!-- Windows 10 --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;supportedOS</span> <span style=color:#a6e22e>Id=</span><span style=color:#e6db74>&#34;{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/application&gt;&lt;/compatibility&gt;&lt;trustInfo</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;urn:schemas-microsoft-
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>com:asm.v3&#34;</span><span style=color:#f92672>&gt;&lt;security&gt;&lt;requestedPrivileges&gt;&lt;requestedExecutionLevel</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>level=</span><span style=color:#e6db74>&#34;requireAdministrator&#34;</span> <span style=color:#a6e22e>uiAccess=</span><span style=color:#e6db74>&#34;false&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/requestedPrivileges&gt;&lt;/security&gt;&lt;/trustInfo&gt;&lt;/assembly&gt;</span>
+</span></span></code></pre></div><p>And as normal, this malware does not run-on DOS mode:</p><table><thead><tr><th>Category</th><th>Details</th></tr></thead><tbody><tr><td>compiler</td><td>Microsoft Visual C++ 8</td></tr><tr><td>Architechture</td><td>Intel 80386 [Windows]</td></tr><tr><td>Operating System</td><td>Microsoft Windows</td></tr><tr><td>Library</td><td>Microsoft Visual C++</td></tr><tr><td>SubSystem</td><td>GUI</td></tr><tr><td>File-Type</td><td>Executable</td></tr><tr><td>Endianness</td><td>Little</td></tr><tr><td>CPU</td><td>32-bit</td></tr><tr><td>Linker</td><td>Microsoft Linker (6.0)</td></tr><tr><td>Overlay</td><td>-</td></tr></tbody></table><h2 id=details-of-packing-or-obfuscation>Details of packing or obfuscation</h2><p>According to the Virustotal and Hybrid-Analysis, this malware packer is Microsoft visual
+C++ 8. And this is just a redistributable package. This packer does not actually hide any data of
+the malware. Therefore, All the strings, libraries and imports can be easily found with
+appropriate tools.</p><p>However, if you check the malware sample with DIE (Detect It Easy). DIE illustrates that the
+malware sample has entropy around 6.8 and it has been packed.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/Entropy.png alt="Image 6: Entropy"></p><p>However, PEiD tool confirms that the malware has not been packed. And its entropy is quite
+lower than what showed by DIE.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/PEiD_not_packed.png alt="Image 7: PEiD Not Packed"></p><p>Furthermore, this malware does not contain imports such as LoadLibrary and GetProAddress
+which are useful for packing. Nevertheless, if you use PortEx Analyzer to check it. You will find
+some areas of the malware sample have been packed. And According to that tool, the malware contains an overlay part, and it has a higher amount of entropy:
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/PortEx.png alt="Image 8: PortEx Analyzer"></p><p>owever, in my opinion, this will not impact on understanding the malware behaviour. However,
+this unpacked area can also be unpacked. But it does not make any difference.
+Nonetheless, Unpacking the malware could be hard. Because the malware contains a
+function called IsDebuggerPresent.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/IsDebuggerPresent.png alt="Image 9: IsDebuggerPresent">
+IsDebuggerPresent is a kernel32 function which determines whether a process is being
+debugged. But this only checks the user-mode debugger.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/IsDebuggerPresent1.png alt="Image 10: IsDebuggerPresent IDA">
+There are few tricks that can be used to go through this Anti-Debugging obfuscation.
+With Some plugin which can be used with OllyDBG, this issue can be resolve very easily.
+plugins such as</p><ol><li>Olly Advance</li><li>Panth0m can be used to avoid this.
+Or the malware can be patched in order to avoid this. This function returns a one if the process is being debugged.</li></ol><p><img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/Function_IsDebugger_Present.png alt="Image 11: Assembly code of IsDebugerPresent funcion IDA"></p><p>This code checks whether the debugger is available with PEB (ProcessEnvironmentBlock) via
+TEB(ThreatEnvironmentBlock). With mov large fs:18h self-pointing to TEB. then the offset 0x30
+points to the PEB. And the second byte of the Process Environment Block structure refers to Beingdebugged. It
+checks with movzx eax, byte ptr [eax+2], the value stores in the eax registry.
+After that it compares the EAX value with 0. Thus, if you change the value of 1 to 0. You will be
+able to get through this obfuscation technique.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/RAX.png alt="Image 12: Changing RAX value 1 to 0"></p><p>Furthermore, this malware has OutputDebugString. This is also a kernel32 function. It also checks whether the program is being debugged or not.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/OutputDegugString.png alt="Image 13: OutputDebugString"></p><p>This function gets kernel 32 GetLastError() function’s return value. And check whether
+the process is being debugged or not. However, this only works with Windows NT, 2000 or XP. If
+you use windows vista or later versions, this can be ignored.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/OutputDegugString1.png alt="Image 14: OutputDebugString1"></p><h2 id=details-of-malware-behaviour>Details of malware behaviour</h2><p>This malware behaviour also stretches to a significant range. Network behaviours, interaction with computer files system to registers changes can be experienced with malware.
+Thus, this malware has characteristics of an adware. When the basic picture of malware is being considered, the malware creates two additional iexplore.exe processes while it is running.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/HybridAnalysis.png alt="Image 15: HybridAnalysis"></p><h3 id=dynamic-analysis>Dynamic Analysis:</h3><p>The malware can be executed normally by double clicking. Within 3-6 seconds the iexplore.exe will open depending on victim computer speed and the default browser after executing malware. And here is a screenshot of Process Hacker, while the malware is running:</p><p><img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/ProcessHacker.png alt="Image 16: Process Hacker While Running The Malware"></p><p>With the process monitor and ProcDot more actions can be recognized from the
+malware.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/Process_Monitor.png alt="Image 17: ProcessMonitor"></p><h3 id=noticeable-behaviours>Noticeable behaviours:</h3><p>This malware also set some special directories. Some of those set up directories are listed below.</p><ul><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Temporary Internet Files\</code></li><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Temporary Internet Files\Content.IE5</code></li><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Temporary Internet Files\History</code></li><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Windows\Cookies</code></li><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Windows\History\History.IE5</code></li></ul><p>Get TickCount value is another key behaviour of this malware. This allows the malware to get the number of milliseconds that have elapsed since the system was started. After the sleep.</p><h3 id=interaction-with-the-file-system>Interaction with the File System:</h3><p>This malware interacts with the victim computer files system by creating, executing, finding, and removing files.</p><h4 id=create-files>Create Files:</h4><p>There are more than 40 files created by this malware. A screenshot of the ProcMon is shown below.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/FilesCreation.png alt="Image 18: Files Creation">
+As this screenshot shows the malware interacts with highly confidential files. However, here are
+the most noticeable files.</p><ul><li><code>C:\User\&lt;UserName>\AppData\Local\Microsoft\Temporary Internet Files\Content.IE5\C1Os62Ry\QDElURGZQAc</code></li><li><code>%TMP%\SampleTwo(H).exe</code>
+And this last file which is <code>SampleTwo(H).exe</code> is an executable file.</li></ul><h4 id=removed-and-closed-files>Removed and Closed Files:</h4><p>As this report mentioned earlier almost every file that was created by the malware is deleted. For instance, the below snapshot will illustrate the files that are closed by the SmapleTwo.exe file.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/FileDeletion.png alt="Image 19: Files Delection"></p><p>Among these removed files <code>C:\Documents and Settings\Administrator\Local Settings\Temporary Internet Files\Content.IE5\C1OS62RY\QDElURGZQAc</code> is important. Because this where malware
+stored all the information about the victim before it sends.</p><p>According to the Dependency Walker tool, this malware has ole32.dll.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/DependencyWalker.png alt="Image 20: DependencyWalker OLE32.DLL">
+This allows the malware to embed some object into a document or objects that were created by
+another process.</p><h3 id=network-communication>Network Communication:</h3><p>There few network behaviours can be identified with this malware. This malware opens default
+web browser and access to some web pages automatically. Once it is executed as I mentioned
+before. For that this malware uses some dll such as shell32.dll:
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/shell32.png alt="Image 20: shell32.DLL"></p><p>According to the Wireshark:</p><ul><li>Almost 86% of network protocols that are used by the malware is TCP. HTTP 5.8% and
+interestingly enough 1.7% data has been captured that Wireshark cannot really
+understand.</li></ul><p>his malware makes a DNS requests. Among them are the following IPv4 addresses are rather
+suspicious.</p><ol><li><code>31.31.205.163</code> → This web site domain name is <code>http://ns1.domainparking.int.reg.ru/</code>. This is based in Russia.</li><li><code>31.13.90.6</code> → This IP address belong to Facebook, and server is based in Ireland.</li><li><code>216.58.215.34</code> – this is another Russian based web server. Its domain name is blockey.ru. However, this is ip address belongs to GoDaddy.</li></ol><p>Among these IP addresses most of them are from either Russia or the USA. However, Some of the IP addresses now no longer work. And here are the countries that contacted by the malware according to the Hybrid-Analysis.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/ConnectedCountries.png alt="Image 21: Connected Countries"></p><h3 id=registry-keys>Registry Keys:</h3><p>This malware sample also interacts with windows registry considerably. It deletes or modifies
+very important registries of the windows. For instance:</p><ul><li>This malware modifies <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections</code>. And Deletes it.</li><li><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyServer</code></li><li><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyOverride</code>
+These Registry keys are used to access the binary value of DefaultConnectionSettings which has information about proxy configuration. This malware removes if the computer uses any proxy or VPN connections.</li></ul><p>Moreover, another noticeable behaviour of this malware windows registry. Is that it creates a sub registry in <code>HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Tracing</code>.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/RASAPI32.png alt="Image 22: Tracing"></p><p>These registry have some values as well. Thus, this reg key is used by malware itself to tracing file
+once it wakes up from a long sleep.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/ValuesTracing.png alt="Image 23: Values Tracing"></p><h2 id=detection-rules>Detection Rules</h2><h3 id=yara-rules>Yara Rules:</h3><p>Unlike the first sample. This malware contains lots of unique strings. However, in order to detect this malware, sample some unique techniques have been utilized. Therefore, following Yara rules has the ability to identify this malware very accurately.</p><pre tabindex=0><code class=language-YARA data-lang=YARA>import &#34;pe&#34;
+private global rule IsPE
+{
+    condition:
+        uint16(0) == 0x5A4D and
+        uint32(uint32(0x3C)) == 0x00004550
+}
+private global rule FileSize
+{
+    condition:
+        filesize &gt; 190KB
+}
+private rule EntryPoint
+{
+    condition:
+        pe.entry_point == 0x00006F0D
+}
+private rule FileSections
+{
+    condition:
+        for any i in (0..pe.number_of_sections-1) : ( pe.sections[i].name == &#34;.reloc&#34; )
+}
+rule SampleTwo : Spyware
+{
+    meta:
+        author = &#34;Dakshitha Perera&#34;
+        description = &#34;Yara rules for malware Sample Two&#34;
+        data = &#34;02/01/2020&#34;
+        strings:
+        $MainWebsite = &#34;www.babla.ru&#34;
+        $IpAddress1 = &#34;41.34.22.68&#34;
+        $IpAddress2 = &#34;38.45.27.68&#34;
+    condition:
+        all of them and IsPE and FileSize and FileSections
+}
+</code></pre><p>First, the pe module has been imported to this rule. Because pe.entry_point feature has been used in this rule. The first rule is to identify all the executable files in the given location</p><pre tabindex=0><code class=language-YARA data-lang=YARA>private global rule IsPE
+{
+    condition:
+        uint16(0) == 0x5A4D and
+        uint32(uint32(0x3C)) == 0x00004550
+}
+</code></pre><p>Furthermore, this rule has made global rule. Which gives the ability to impose restriction in all rules at once.
+Second rule checks the file size. Normally this file is 195KB. However, if the malware comes as a Trojan and the file size should definitely be increased. That is the reason why this rule checks more than 190KB size of files.</p><pre tabindex=0><code class=language-YARA data-lang=YARA>private global rule FileSize
+{
+    condition:
+        filesize &gt; 190KB
+}
+</code></pre><p>With the third rule, Yara checks file entry points. Pe Yara module has been imported for this rule.</p><pre tabindex=0><code class=language-YARA data-lang=YARA>private rule EntryPoint
+{
+    condition:
+        pe.entry_point == 0x00006F0D
+}
+</code></pre><p>Moreover, this Yara rule is a private rule. When the private rules are used, Yara does not report
+other file matches.
+Finally, it checks some unique strings such as the webpages:</p><pre tabindex=0><code class=language-YARA data-lang=YARA>rule SampleTwo : Spyware
+{
+    meta:
+        author = &#34;Dakshitha Perera&#34;
+        description = &#34;Yara rules for malware Sample Two&#34;
+        data = &#34;02/01/2020&#34;
+    strings:
+        $MainWebsite = &#34;www.babla.ru&#34;
+        $IpAddress1 = &#34;41.34.22.68&#34;
+        $IpAddress2 = &#34;38.45.27.68&#34;
+    condition:
+        all of them and IsPE and FileSize and FileSections
+</code></pre><p>And the final condition made the Yara to search an executable file which has the entry point of <code>0x0006F0D</code>, and size is more than 190KB and babla.ru string included.
+<img src=https://d42kw01f.github.io/m4lwar3/Images/c630037470c043751f79456680a9d3277e1d33836888b2417223529d73dd1df1/SnortDetected.png alt="Image 24: Snort Detected"></p><h3 id=snort-rules>Snort Rules:</h3><p>The main network communication of this malware, which is the HTTP request <code>http://discriminate.blockey.ru/</code> is fine way to detect this malware using snort rules.</p><pre tabindex=0><code class=language-Snort data-lang=Snort>var MALIP[185.80.54.15,185.53.178.7]
+
+alert TCP any 80 -&gt; $MALIP 1:1024 (flags: S; msg: &#34;Code Read: SYN packet to a
+malicious website; \
+reference: &#34;discriminate.blockey.ru/&#34;)
+</code></pre><p>Above mentioned snort rule will check for any network communication to that malicious
+website. Moreover, this rule looks for SYN flags. Thus, it can detect the malware at the
+very early stage. Before it makes any connection to this malicious web site.</p><h2 id=detection-and-malware-removal-instructions>Detection and Malware Removal Instructions</h2><p>This malware can be identified as another type of Spyware. This malware writes victim’s
+sensitive data to remote processes without users’ knowledge. Nonetheless, the only detection
+that can be seen by a non-technical person is opening the web browser and accessing the
+<code>http://discriminate.blockey.ru/</code> website automatically. However, there are so many actions going on
+behind the scenes as this report mentioned during the Malware Behaviour part.
+This spyware can reach the computer through two main ways.</p><ol><li>Via freeware or sharewares. Downloading and installing freeware to the computer is
+always risky. Most freeware and cracked versions are patched with malicious code.
+Therefore, avoiding freeware, sharewares and cracked wares is the best way to avoid this
+malware.</li><li>Infected websites are another way of this malware reaching your computer. And also,
+social engineering could be involved in this way.</li></ol><p>This malware can easily be detected by default windows anit-virus software which is Windows Defender. Once the Windows is infected by this malware windows defender shows a warning popup like this. And when the system is scanned with Windows Defender. The threat can be found.
+Therefore, enabling and updating the windows defender or any other antivirus software could stop such infections. Moreover, updating your windows and default browser could also help to avoid or reduce the damages. There are few measures that can be taken in order to remove this malware from the system.</p><ol><li>Turn on the Windows Defender or use any other Antivirus programs and scan the whole
+file system. The windows defender is capable of detecting and removing the malware
+automatically.</li><li>Uninstall unwanted Programs from the computer. - Navigate to the control panel on the
+windows machine. And then go to the Uninstall program.
+After that you can delete unwanted programs from your computer.</li><li>Clear whole browser data. If you are using chrome browser. You can reset chrome by
+navigating to three dots at the top right three dots and navigate to the setting on the pop up.
+After that go to Advanced and click Reset and Clean-up. And it will reset the whole
+browser.</li><li>Or this python program can be used to remove the malware from the device</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Autor: Dakshitha Perera</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Data : 19/01/2021</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Title : program to remove Malware Sample Two.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> winreg <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> tempfile
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> psutil
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> sqlite3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> winreg
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> re
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ProcessMonitoring</span>():
+</span></span><span style=display:flex><span>	tempDir <span style=color:#f92672>=</span> tempfile<span style=color:#f92672>.</span>gettempdir()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	malProcess <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;svchost.exe&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> proc <span style=color:#f92672>in</span> psutil<span style=color:#f92672>.</span>pids():
+</span></span><span style=display:flex><span>		p <span style=color:#f92672>=</span> psutil<span style=color:#f92672>.</span>Process(proc)
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span>(p<span style=color:#f92672>.</span>name()) <span style=color:#f92672>==</span> malProcess:
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>				Procfiles <span style=color:#f92672>=</span> p<span style=color:#f92672>.</span>open_files()
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>except</span>:
+</span></span><span style=display:flex><span>				<span style=color:#75715e># print(&#34;couldn&#39;t find the malware process on the running processes&#34;)</span>
+</span></span><span style=display:flex><span>				<span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>for</span> root, dirs, files <span style=color:#f92672>in</span> os<span style=color:#f92672>.</span>walk(tempDir):
+</span></span><span style=display:flex><span>			    <span style=color:#66d9ef>for</span> file <span style=color:#f92672>in</span> files:
+</span></span><span style=display:flex><span>			        searchFiles <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>compile(<span style=color:#e6db74>r</span><span style=color:#e6db74>&#39;.*[.]txt&#39;</span>)
+</span></span><span style=display:flex><span>			        matches <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>findall(searchFiles, file)
+</span></span><span style=display:flex><span>			        <span style=color:#66d9ef>if</span> matches:
+</span></span><span style=display:flex><span>			            <span style=color:#66d9ef>if</span>(matches[<span style=color:#ae81ff>0</span>][<span style=color:#f92672>-</span><span style=color:#ae81ff>11</span>:] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;(H).txt.txt&#34;</span>):
+</span></span><span style=display:flex><span>			            	malwareRealName <span style=color:#f92672>=</span> matches[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>			            	print(<span style=color:#e6db74>&#34;The malware name is </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(malwareRealName))
+</span></span><span style=display:flex><span>			            	<span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>			            		p<span style=color:#f92672>.</span>kill()
+</span></span><span style=display:flex><span>			            		print(<span style=color:#e6db74>&#34;Running Malware Processes PID </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>was killed&#34;</span><span style=color:#f92672>.</span>format(proc))
+</span></span><span style=display:flex><span>			            		os<span style=color:#f92672>.</span>remove(os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>join(tempDir, malwareRealName))
+</span></span><span style=display:flex><span>			            	<span style=color:#66d9ef>except</span>:
+</span></span><span style=display:flex><span>			                	print(<span style=color:#e6db74>&#34;Couldn&#39;t kill the Process!!!&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ChromeHistryDelete</span>():
+</span></span><span style=display:flex><span>	username <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getlogin()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	db <span style=color:#f92672>=</span> sqlite3<span style=color:#f92672>.</span>connect(<span style=color:#e6db74>&#39;c:</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Users</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>{}</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>AppData</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Local</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Google</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Chrome</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>User Data</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Default</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>History&#39;</span><span style=color:#f92672>.</span>format(username))
+</span></span><span style=display:flex><span>	c <span style=color:#f92672>=</span> db<span style=color:#f92672>.</span>cursor()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	URLPattern <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>compile(<span style=color:#e6db74>r</span><span style=color:#e6db74>&#34;https?://([^/]+)/&#34;</span>)
+</span></span><span style=display:flex><span>	domains <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	result <span style=color:#f92672>=</span> <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span>	id <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>while</span> result:
+</span></span><span style=display:flex><span>	    result <span style=color:#f92672>=</span> <span style=color:#66d9ef>False</span>
+</span></span><span style=display:flex><span>	    ids <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	    <span style=color:#66d9ef>for</span> row <span style=color:#f92672>in</span> c<span style=color:#f92672>.</span>execute(<span style=color:#e6db74>&#39;SELECT id, url, title FROM urls WHERE id &gt; ? LIMIT 1000&#39;</span>, (id,)):
+</span></span><span style=display:flex><span>	        result <span style=color:#f92672>=</span> <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span>	        match <span style=color:#f92672>=</span> URLPattern<span style=color:#f92672>.</span>search(row[<span style=color:#ae81ff>1</span>])
+</span></span><span style=display:flex><span>	        id <span style=color:#f92672>=</span> row[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	        <span style=color:#66d9ef>if</span> match:
+</span></span><span style=display:flex><span>	            domain <span style=color:#f92672>=</span> match<span style=color:#f92672>.</span>group(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>	            domains[domain] <span style=color:#f92672>=</span> domains<span style=color:#f92672>.</span>get(domain, <span style=color:#ae81ff>0</span>) <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>	            <span style=color:#75715e># clean if this is true</span>
+</span></span><span style=display:flex><span>	            <span style=color:#66d9ef>if</span> <span style=color:#e6db74>&#34;discriminate.blockey.ru&#34;</span> <span style=color:#f92672>in</span> domain:
+</span></span><span style=display:flex><span>	                ids<span style=color:#f92672>.</span>append((id,))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	    c<span style=color:#f92672>.</span>executemany(<span style=color:#e6db74>&#39;DELETE FROM urls WHERE id=?&#39;</span>, ids)
+</span></span><span style=display:flex><span>	    db<span style=color:#f92672>.</span>commit()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	db<span style=color:#f92672>.</span>close()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ClearChromeCookies</span>():
+</span></span><span style=display:flex><span>	username <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getlogin()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	db <span style=color:#f92672>=</span> sqlite3<span style=color:#f92672>.</span>connect(<span style=color:#e6db74>&#39;c:</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Users</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>{}</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>AppData</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Local</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Google</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Chrome</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>User Data</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Default</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Cookies&#39;</span><span style=color:#f92672>.</span>format(username))
+</span></span><span style=display:flex><span>	c <span style=color:#f92672>=</span> db<span style=color:#f92672>.</span>cursor()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	result <span style=color:#f92672>=</span> <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>while</span> result:
+</span></span><span style=display:flex><span>		result <span style=color:#f92672>=</span> <span style=color:#66d9ef>False</span>
+</span></span><span style=display:flex><span>		ids <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>for</span> row <span style=color:#f92672>in</span> c<span style=color:#f92672>.</span>execute(<span style=color:#e6db74>&#39;SELECT creation_utc, host_key, name FROM Cookies&#39;</span>):
+</span></span><span style=display:flex><span>			id <span style=color:#f92672>=</span> row[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>if</span> row[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;.discriminate.blockey.ru:</span>
+</span></span><span style=display:flex><span>				ids<span style=color:#f92672>.</span>append((id, ))
+</span></span><span style=display:flex><span>		
+</span></span><span style=display:flex><span>		c<span style=color:#f92672>.</span>executemany(<span style=color:#e6db74>&#39;DELETE FROM Cookies WHERE creation_utc=?&#39;</span>, ids)
+</span></span><span style=display:flex><span>		db<span style=color:#f92672>.</span>commit()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	db<span style=color:#f92672>.</span>close()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ClearChromeCache</span>():
+</span></span><span style=display:flex><span>	username <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getlogin()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	db <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;C:</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Users</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>{}</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>AppData</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Local</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Google</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Chrome</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>User Data</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Default</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Cache&#39;</span><span style=color:#f92672>.</span>format(username))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> root, dirs, files <span style=color:#f92672>in</span> os<span style=color:#f92672>.</span>walk(db):
+</span></span><span style=display:flex><span>	    <span style=color:#66d9ef>for</span> filename <span style=color:#f92672>in</span> files:
+</span></span><span style=display:flex><span>	    	pattern <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>compile(<span style=color:#e6db74>r</span><span style=color:#e6db74>&#39;^f.&#39;</span>)
+</span></span><span style=display:flex><span>	    	matches <span style=color:#f92672>=</span> pattern<span style=color:#f92672>.</span>finditer(filename)
+</span></span><span style=display:flex><span>	    	<span style=color:#66d9ef>for</span> match <span style=color:#f92672>in</span> matches:
+</span></span><span style=display:flex><span>	    		os<span style=color:#f92672>.</span>remove(<span style=color:#e6db74>&#39;C:</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Users</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>{}</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>AppData</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Local</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Google</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Chrome</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>User Data</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Default</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>Cache</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#39;</span><span style=color:#f92672>.</span>format(username, filename))
+</span></span><span style=display:flex><span>	    		print(<span style=color:#e6db74>&#34;Deleting </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(filename))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>DeleteRegistry</span>():
+</span></span><span style=display:flex><span>	keyVal <span style=color:#f92672>=</span> <span style=color:#e6db74>r</span><span style=color:#e6db74>&#34;SOFTWARE\Wow6432Node\Microsoft\Tracing&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	aKey <span style=color:#f92672>=</span> OpenKey(HKEY_LOCAL_MACHINE, keyVal, <span style=color:#ae81ff>0</span>, KEY_ALL_ACCESS)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>	    i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>	    <span style=color:#66d9ef>while</span> <span style=color:#66d9ef>True</span>:
+</span></span><span style=display:flex><span>	        asubkey <span style=color:#f92672>=</span> winreg<span style=color:#f92672>.</span>EnumKey(aKey, i)
+</span></span><span style=display:flex><span>	        <span style=color:#75715e># print(asubkey)</span>
+</span></span><span style=display:flex><span>	        searchReg <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>compile(<span style=color:#e6db74>r</span><span style=color:#e6db74>&#39;^(?!IpHlpSvc|iexplore|setup|Squirre).*&#39;</span>)
+</span></span><span style=display:flex><span>	        matches <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>findall(searchReg, asubkey)
+</span></span><span style=display:flex><span>	        <span style=color:#66d9ef>if</span> matches:
+</span></span><span style=display:flex><span>	        	GuessingMalwareRealName <span style=color:#f92672>=</span> matches[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;_&#34;</span>)[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>	        	print(<span style=color:#e6db74>&#34;The malware name is </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(GuessingMalwareRealName))
+</span></span><span style=display:flex><span>	        	userInput <span style=color:#f92672>=</span> input(<span style=color:#e6db74>&#34;Would you take it and delete the regkey(y/n) : &#34;</span>)
+</span></span><span style=display:flex><span>	        	<span style=color:#66d9ef>if</span> userInput <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;y&#34;</span>:
+</span></span><span style=display:flex><span>	        		print(<span style=color:#e6db74>&#34;regkey will be delete shortly!! &#34;</span>)
+</span></span><span style=display:flex><span>	        		RegValue <span style=color:#f92672>=</span> str(asubkey[<span style=color:#ae81ff>0</span>])
+</span></span><span style=display:flex><span>	        		RegData <span style=color:#f92672>=</span> str(asubkey[<span style=color:#ae81ff>1</span>])
+</span></span><span style=display:flex><span>	        		winreg<span style=color:#f92672>.</span>DeleteValue(hKey, RegValue)
+</span></span><span style=display:flex><span>	        		<span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	        	<span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>	        		print(<span style=color:#e6db74>&#34;unable to delete Malware Registry!!!&#34;</span>)
+</span></span><span style=display:flex><span>	        i <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>except</span>:
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>pass</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ChromeHistryDelete()
+</span></span><span style=display:flex><span>ClearChromeCache()
+</span></span><span style=display:flex><span>ClearChromeCache()
+</span></span><span style=display:flex><span>DeleteRegistry()
+</span></span><span style=display:flex><span>ProcessMonitoring()
+</span></span></code></pre></div></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7" y2="7"/></svg><span class=tag><a href=https://d42kw01f.github.io/tags/malware/>malware</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/re/>RE</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/reverse-engineering/>Reverse Engineering</a></span></p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span class=tag><a href=https://d42kw01f.github.io/categories/malware/>malware</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/categories/re/>RE</a></span></p></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>RGFrc2hpdGhhIFBlcmVyYQo=</span></div></div></footer></div><script type=text/javascript src=https://d42kw01f.github.io/bundle.min.feebdc8d801e3fb1791305e362b6d11557f029604dd5b3c27e2686bc88787ee90ae1ccf0afe81bd7d959d7617cfe1fc73062aa82b4e1fa830d6941193d2cbddf.js integrity="sha512-/uvcjYAeP7F5EwXjYrbRFVfwKWBN1bPCfiaGvIh4fukK4czwr+gb19lZ12F8/h/HMGKqgrTh+oMNaUEZPSy93w=="></script></body></html>

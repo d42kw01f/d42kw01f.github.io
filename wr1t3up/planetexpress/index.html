@@ -1,0 +1,193 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content="map[name:d42kw01f]"><meta name=description content="Proving Grounds Practice PlannetExpress Writeup|Walkthrough"><meta name=keywords content="cyber security,malware reverse engineering,pen test,CTF,PG-practice,Linux,OSCP"><meta name=robots content="noodp"><meta name=theme-color content><link rel=canonical href=https://d42kw01f.github.io/wr1t3up/planetexpress/><title>PlannetExpress - PG Practice :: d42kw01f</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=https://d42kw01f.github.io/main.4e5c639214707eff609bb55fe49e183dee42258a73bc90e4cc7b0a84f900798a.css><link rel=apple-touch-icon sizes=180x180 href=https://d42kw01f.github.io/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://d42kw01f.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://d42kw01f.github.io/favicon-16x16.png><link rel=manifest href=https://d42kw01f.github.io/site.webmanifest><link rel=mask-icon href=https://d42kw01f.github.io/safari-pinned-tab.svg color><link rel="shortcut icon" href=https://d42kw01f.github.io/favicon.ico><meta name=msapplication-TileColor content><meta itemprop=name content="PlannetExpress - PG Practice"><meta itemprop=description content="Proving Grounds Practice PlannetExpress Writeup|Walkthrough"><meta itemprop=datePublished content="2022-06-14T00:00:00+00:00"><meta itemprop=dateModified content="2022-06-14T00:00:00+00:00"><meta itemprop=wordCount content="1025"><meta itemprop=image content="https://d42kw01f.github.io/img/image.jpg"><meta itemprop=keywords content="CTF,PG-practice,Linux,OSCP,"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://d42kw01f.github.io/img/image.jpg"><meta name=twitter:title content="PlannetExpress - PG Practice"><meta name=twitter:description content="Proving Grounds Practice PlannetExpress Writeup|Walkthrough"><meta property="og:title" content="PlannetExpress - PG Practice"><meta property="og:description" content="Proving Grounds Practice PlannetExpress Writeup|Walkthrough"><meta property="og:type" content="article"><meta property="og:url" content="https://d42kw01f.github.io/wr1t3up/planetexpress/"><meta property="og:image" content="https://d42kw01f.github.io/img/image.jpg"><meta property="article:section" content="wr1t3up"><meta property="article:published_time" content="2022-06-14T00:00:00+00:00"><meta property="article:modified_time" content="2022-06-14T00:00:00+00:00"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/hutch/"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/billyboy/"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/dawn3/"><meta property="article:section" content="PG-practice"><meta property="article:section" content="Linux"><meta property="article:published_time" content="2022-06-14 00:00:00 +0000 UTC"></head><body><div class=container><header class=header><span class=header__inner><a href=https://d42kw01f.github.io/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>$ cd ~</span>
+<span class=logo__cursor style=background-color:#67a2c9></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=https://d42kw01f.github.io/wr1t3up/>1.wr1t3up</a></li><li><a href=https://d42kw01f.github.io/m4lwar3/>2.m4lwar3</a></li><li><a href=https://d42kw01f.github.io/0th3r/>3.0th3r</a></li><li><a href=https://d42kw01f.github.io/about/>4b0ut M3</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info></p></div><article><h2 class=post-title><a href=https://d42kw01f.github.io/wr1t3up/planetexpress/>PlannetExpress - PG Practice</a></h2><div class=post-content><hr><h2 id=summary>Summary:</h2><blockquote><p>This is a cool vulnerable machine that illustrates <code>PHP-FPM FastCGI</code> vulnerability well. This <code>PHP-FPM FastCGI</code> vulnerability can be utilized to gain the initial foothold. And misconfigured <code>SUID</code> binary was used to escalate privileges.</p></blockquote><h2 id=enumeration>Enumeration</h2><p>Let&rsquo;s First start with a <code>nmap</code> to find services running on the target machine</p><h3 id=nmap>nmap</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo nmap -Sc -sV -vv 192.168.120.158 --scripts<span style=color:#f92672>=</span>vulns,defaults -oN nmap/mull_ports -Pn -p-
+</span></span></code></pre></div><pre tabindex=0><code>22/tcp   open  ssh         syn-ack OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+| ssh-hostkey:
+|   2048 74:ba:20:23:89:92:62:02:9f:e7:3d:3b:83:d4:d9:6c (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGGcX/x/M6J7Y0V8EeUt0FqceuxieEOe2fUH2RsY3XiSxByQWNQi+XSrFElrfjdR2sgnauIWWhWibfD+kTmSP5gkFcaoSsLtgfMP/2G8yuxPSev+9o1N18gZchJneakItNTaz1ltG1W//qJPZDHmkDneyv798f9ZdXBzidtR5/+2ArZd64bldUxx0irH0lNcf+ICuVlhOZyXGvSx/ceMCRozZrW2JQU+WLvs49gC78zZgvN+wrAZ/3s8gKPOIPobN3ObVSkZ+zngt0Xg/Zl11LLAbyWX7TupAt6lTYOvCSwNVZURyB1dDdjlMAXqT/Ncr4LbP+tvsiI1BKlqxx4I2r
+|   256 54:8f:79:55:5a:b0:3a:69:5a:d5:72:39:64:fd:07:4e (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCpAb2jUKovAahxmPX9l95Pq9YWgXfIgDJw0obIpOjOkdP3b0ukm/mrTNgX2lg1mQBMlS3lzmQmxeyHGg9+xuJA=
+|   256 7f:5d:10:27:62:ba:75:e9:bc:c8:4f:e2:72:87:d4:e2 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE0omUJRIaMtPNYa4CKBC+XUzVyZsJ1QwsksjpA/6Ml+
+| vulners:
+|   cpe:/a:openbsd:openssh:7.9p1:
+|       EXPLOITPACK:98FE96309F9524B8C84C508837551A19    5.8     https://vulners.com/exploitpack/EXPLOITPACK:98FE96309F9524B8C84C508837551A19    *EXPLOIT*
+|       EXPLOITPACK:5330EA02EBDE345BFC9D6DDDD97F9E97    5.8     https://vulners.com/exploitpack/EXPLOITPACK:5330EA02EBDE345BFC9D6DDDD97F9E97    *EXPLOIT*
+|       EDB-ID:46516    5.8     https://vulners.com/exploitdb/EDB-ID:46516      *EXPLOIT*
+|       EDB-ID:46193    5.8     https://vulners.com/exploitdb/EDB-ID:46193      *EXPLOIT*
+|       CVE-2019-6111   5.8     https://vulners.com/cve/CVE-2019-6111
+|       1337DAY-ID-32328        5.8     https://vulners.com/zdt/1337DAY-ID-32328        *EXPLOIT*
+|       1337DAY-ID-32009        5.8     https://vulners.com/zdt/1337DAY-ID-32009        *EXPLOIT*
+|       CVE-2021-41617  4.4     https://vulners.com/cve/CVE-2021-41617
+|       CVE-2019-16905  4.4     https://vulners.com/cve/CVE-2019-16905
+|       CVE-2020-14145  4.3     https://vulners.com/cve/CVE-2020-14145
+|       CVE-2019-6110   4.0     https://vulners.com/cve/CVE-2019-6110
+|       CVE-2019-6109   4.0     https://vulners.com/cve/CVE-2019-6109
+|       CVE-2018-20685  2.6     https://vulners.com/cve/CVE-2018-20685
+|_      PACKETSTORM:151227      0.0     https://vulners.com/packetstorm/PACKETSTORM:151227      *EXPLOIT*
+80/tcp   open  http        syn-ack Apache httpd 2.4.38 ((Debian))
+| http-enum:
+|_  /.gitignore: Revision control ignore file
+| http-csrf:
+| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=192.168.207.205
+|   Found the following possible CSRF vulnerabilities:
+|
+|     Path: http://192.168.207.205:80/
+|     Form id: fh5co-header-subscribe
+|_    Form action: /
+|_http-stored-xss: Couldn&#39;t find any stored XSS vulnerabilities.
+|_http-litespeed-sourcecode-download: Request with null byte did not work. This web server might not be vulnerable
+|_http-wordpress-users: [Error] Wordpress installation was not found. We couldn&#39;t find wp-login.php
+|_http-vuln-cve2017-1001000: ERROR: Script execution failed (use -d to debug)
+| vulners:
+|   cpe:/a:apache:http_server:2.4.38:
+|       CVE-2022-31813  7.5     https://vulners.com/cve/CVE-2022-31813
+|       CVE-2022-23943  7.5     https://vulners.com/cve/CVE-2022-23943
+|       CVE-2022-22720  7.5     https://vulners.com/cve/CVE-2022-22720
+|       CVE-2021-44790  7.5     https://vulners.com/cve/CVE-2021-44790
+|       CVE-2021-39275  7.5     https://vulners.com/cve/CVE-2021-39275
+|       CVE-2021-26691  7.5     https://vulners.com/cve/CVE-2021-26691
+|       CVE-2020-11984  7.5     https://vulners.com/cve/CVE-2020-11984
+|       1337DAY-ID-34882        7.5     https://vulners.com/zdt/1337DAY-ID-34882        *EXPLOIT*
+|       EXPLOITPACK:44C5118F831D55FAF4259C41D8BDA0AB    7.2     https://vulners.com/exploitpack/EXPLOITPACK:44C5118F831D55FAF4259C41D8BDA0AB    *EXPLOIT*
+|       EDB-ID:46676    7.2     https://vulners.com/exploitdb/EDB-ID:46676      *EXPLOIT*
+|       CVE-2019-0211   7.2     https://vulners.com/cve/CVE-2019-0211
+|       1337DAY-ID-32502        7.2     https://vulners.com/zdt/1337DAY-ID-32502        *EXPLOIT*
+|       FDF3DFA1-ED74-5EE2-BF5C-BA752CA34AE8    6.8     https://vulners.com/githubexploit/FDF3DFA1-ED74-5EE2-BF5C-BA752CA34AE8  *EXPLOIT*
+|       CVE-2022-22721  6.8     https://vulners.com/cve/CVE-2022-22721
+|       CVE-2021-40438  6.8     https://vulners.com/cve/CVE-2021-40438
+|       CVE-2020-35452  6.8     https://vulners.com/cve/CVE-2020-35452
+|       8AFB43C5-ABD4-52AD-BB19-24D7884FF2A2    6.8     https://vulners.com/githubexploit/8AFB43C5-ABD4-52AD-BB19-24D7884FF2A2  *EXPLOIT*
+|       4810E2D9-AC5F-5B08-BFB3-DDAFA2F63332    6.8     https://vulners.com/githubexploit/4810E2D9-AC5F-5B08-BFB3-DDAFA2F63332  *EXPLOIT*
+|       4373C92A-2755-5538-9C91-0469C995AA9B    6.8     https://vulners.com/githubexploit/4373C92A-2755-5538-9C91-0469C995AA9B  *EXPLOIT*
+|       0095E929-7573-5E4A-A7FA-F6598A35E8DE    6.8     https://vulners.com/githubexploit/0095E929-7573-5E4A-A7FA-F6598A35E8DE  *EXPLOIT*
+|       CVE-2022-28615  6.4     https://vulners.com/cve/CVE-2022-28615
+|       CVE-2021-44224  6.4     https://vulners.com/cve/CVE-2021-44224
+|       CVE-2019-10082  6.4     https://vulners.com/cve/CVE-2019-10082
+|       CVE-2019-10097  6.0     https://vulners.com/cve/CVE-2019-10097
+|       CVE-2019-0217   6.0     https://vulners.com/cve/CVE-2019-0217
+|       CVE-2019-0215   6.0     https://vulners.com/cve/CVE-2019-0215
+|       CVE-2020-1927   5.8     https://vulners.com/cve/CVE-2020-1927
+|       CVE-2019-10098  5.8     https://vulners.com/cve/CVE-2019-10098
+|       1337DAY-ID-33577        5.8     https://vulners.com/zdt/1337DAY-ID-33577        *EXPLOIT*
+|       CVE-2022-30556  5.0     https://vulners.com/cve/CVE-2022-30556
+|       CVE-2022-30522  5.0     https://vulners.com/cve/CVE-2022-30522
+|       CVE-2022-29404  5.0     https://vulners.com/cve/CVE-2022-29404
+|       CVE-2022-28614  5.0     https://vulners.com/cve/CVE-2022-28614
+|       CVE-2022-26377  5.0     https://vulners.com/cve/CVE-2022-26377
+|       CVE-2022-22719  5.0     https://vulners.com/cve/CVE-2022-22719
+|       CVE-2021-36160  5.0     https://vulners.com/cve/CVE-2021-36160
+|       CVE-2021-34798  5.0     https://vulners.com/cve/CVE-2021-34798
+|       CVE-2021-33193  5.0     https://vulners.com/cve/CVE-2021-33193
+|       CVE-2021-26690  5.0     https://vulners.com/cve/CVE-2021-26690
+|       CVE-2020-9490   5.0     https://vulners.com/cve/CVE-2020-9490
+|       CVE-2020-1934   5.0     https://vulners.com/cve/CVE-2020-1934
+|       CVE-2019-17567  5.0     https://vulners.com/cve/CVE-2019-17567
+|       CVE-2019-10081  5.0     https://vulners.com/cve/CVE-2019-10081
+|       CVE-2019-0220   5.0     https://vulners.com/cve/CVE-2019-0220
+|       CVE-2019-0196   5.0     https://vulners.com/cve/CVE-2019-0196
+|       CVE-2019-0197   4.9     https://vulners.com/cve/CVE-2019-0197
+|       CVE-2020-11993  4.3     https://vulners.com/cve/CVE-2020-11993
+|       CVE-2019-10092  4.3     https://vulners.com/cve/CVE-2019-10092
+|       4013EC74-B3C1-5D95-938A-54197A58586D    4.3     https://vulners.com/githubexploit/4013EC74-B3C1-5D95-938A-54197A58586D  *EXPLOIT*
+|       1337DAY-ID-35422        4.3     https://vulners.com/zdt/1337DAY-ID-35422        *EXPLOIT*
+|       1337DAY-ID-33575        4.3     https://vulners.com/zdt/1337DAY-ID-33575        *EXPLOIT*
+|_      PACKETSTORM:152441      0.0     https://vulners.com/packetstorm/PACKETSTORM:152441      *EXPLOIT*
+|_http-server-header: Apache/2.4.38 (Debian)
+|_http-title: PlanetExpress - Coming Soon !
+| http-methods:
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-generator: Pico CMS
+|_http-dombased-xss: Couldn&#39;t find any DOM based XSS.
+|_http-jsonp-detection: Couldn&#39;t find any JSONP endpoints.
+9000/tcp open  cslistener? syn-ack
+</code></pre><p>According to the <code>nmap</code> output there three ports were opened. One is <code>port 22</code> running <code>ssh</code>. And <code>http</code> running on <code>port 80</code>. Futhermore, there is an unknown server running on <code>port 9000</code>.</p><p>First Let&rsquo;s enumerate the <code>http</code> service that is running on <code>port 80</code></p><h3 id=http-enumeration><code>HTTP</code> Enumeration:</h3><p>First, I ran <code>nikto</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nikto -h 192.168.120.158
+</span></span></code></pre></div><pre tabindex=0><code>+ Server: Apache/2.4.38 (Debian)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use &#39;-C all&#39; to force check all possible dirs)
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ OSVDB-3233: /icons/README: Apache default file found.
++ ERROR: Error limit (20) reached for host, giving up. Last error: opening stream: can&#39;t connect (connect error): Network is unreachable
++ Scan terminated:  20 error(s) and 5 item(s) reported on remote host
++ End Time:           2022-07-27 10:13:45 (GMT-4) (1115 seconds)
+</code></pre><p>However, there was no interesting thing found by <code>nikto</code>.
+After that I tried to do <code>gobuster</code> try to find hidden directories or files in the <code>HTTP</code> server. However, <code>gobuster</code> started to find lots of directories with status of 403. Thus, I decided use <code>wfuzz</code> to filter out 403 status directories and files:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404,403 <span style=color:#e6db74>&#34;http://192.168.120.158/FUZZ&#34;</span>
+</span></span></code></pre></div><p>There I found interesting directory called <code>config</code>. Then I used <code>fuzz</code> find more files and directories inside that directory.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>fuf -c -w /usr/share/seclists/Discovery/Web-Content/quickhits.txt -u http://192.168.120.158/config/FUZZ -t <span style=color:#ae81ff>500</span> -mc <span style=color:#ae81ff>200</span>
+</span></span></code></pre></div><pre tabindex=0><code>    /&#39;___\  /&#39;___\           /&#39;___\       
+   /\ \__/ /\ \__/  __  __  /\ \__/       
+   \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+    \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+     \ \_\   \ \_\  \ \____/  \ \_\       
+      \/_/    \/_/   \/___/    \/_/       
+
+
+/.gitignore [Status: 200, Size: 33, Words: 8, Lines: 2]
+/config.yml [Status: 200, Size: 812, Words: 96, Lines: 60]
+</code></pre><p>there, I was able to find a file called <code>config.yml</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://192.168.120.158/config/config.yml
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#75715e>##</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Basic</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>site_title</span>: <span style=color:#ae81ff>PlanetExpress</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>base_url</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>rewrite_url</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>debug</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>timezone</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>locale</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Theme</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>theme</span>: <span style=color:#ae81ff>launch</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>themes_url</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>theme_config</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>widescreen</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>twig_config</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>autoescape</span>: <span style=color:#ae81ff>html</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>strict_variables</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>charset</span>: <span style=color:#ae81ff>utf-8</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>debug</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>cache</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>auto_reload</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Content</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>date_format</span>: <span style=color:#ae81ff>%D %T</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>pages_order_by_meta</span>: <span style=color:#ae81ff>planetexpress </span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>pages_order_by</span>: <span style=color:#ae81ff>alpha</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>pages_order</span>: <span style=color:#ae81ff>asc</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>content_dir</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>content_ext</span>: <span style=color:#ae81ff>.md</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>content_config</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>extra</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>breaks</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>escape</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>auto_urls</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>assets_dir</span>: <span style=color:#ae81ff>assets/</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>assets_url</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Plugins: https://github.com/picocms/Pico/tree/master/plugins</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>plugins_url</span>: <span style=color:#ae81ff>~</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>DummyPlugin.enabled</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>PicoOutput</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>formats</span>: [<span style=color:#ae81ff>content, raw, json]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Self developed plugin for PlanetExpress</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#PicoTest:</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#  enabled: true</span>
+</span></span></code></pre></div><p>This <code>config.yml</code> configuration file reveals that a <code>CMS</code> called <code>Pico</code> is running. It includes a Github link for this <code>Pico CMS</code> as well.
+Then I used <code>searchsploit</code> to find any known-vulnerabilities for the <code>Pico CMS</code>. But, I could not find any vulnerabilities for specific service and version.Since I know that the directory structure is /plugins, let&rsquo;s have a look at the PicoTest plugin.</p></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7" y2="7"/></svg><span class=tag><a href=https://d42kw01f.github.io/tags/ctf/>CTF</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/pg-practice/>PG-practice</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/linux/>Linux</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/oscp/>OSCP</a></span></p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span class=tag><a href=https://d42kw01f.github.io/categories/pg-practice/>PG-practice</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/categories/linux/>Linux</a></span></p></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>RGFrc2hpdGhhIFBlcmVyYQo=</span></div></div></footer></div><script type=text/javascript src=https://d42kw01f.github.io/bundle.min.feebdc8d801e3fb1791305e362b6d11557f029604dd5b3c27e2686bc88787ee90ae1ccf0afe81bd7d959d7617cfe1fc73062aa82b4e1fa830d6941193d2cbddf.js integrity="sha512-/uvcjYAeP7F5EwXjYrbRFVfwKWBN1bPCfiaGvIh4fukK4czwr+gb19lZ12F8/h/HMGKqgrTh+oMNaUEZPSy93w=="></script></body></html>

