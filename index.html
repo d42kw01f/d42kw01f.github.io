@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dakshitha Perera — Portfolio</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                        sans: ["ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Helvetica", "Arial"]
+                    },
+                    colors: {
+                        ink: {
+                            950: "#070A0F",
+                            900: "#0B1020",
+                            800: "#0F172A"
+                        },
+                        neon: {
+                            400: "#22c55e",
+                            300: "#34d399",
+                            200: "#5eead4"
+                        }
+                    },
+                    boxShadow: {
+                        glow: "0 0 0 1px rgba(34,197,94,.25), 0 0 28px rgba(34,197,94,.15)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Your custom CSS (grid + scanline) -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-ink-950 text-slate-100">
+<!-- Top glow + grid -->
+<div class="relative min-h-screen grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+
+    <!-- NAV -->
+    <header class="relative z-10">
+        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+            <a href="index.html" class="font-mono tracking-tight text-lg">
+                <span class="text-neon-300">~/</span>dakshitha
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
+                <a class="hover:text-neon-200" href="experience.html">Experience</a>
+                <a class="hover:text-neon-200" href="research.html">Research</a>
+                <a class="hover:text-neon-200" href="skills.html">Skills</a>
+
+                <button type="button"
+                        onclick="window.location.href='contact.html'"
+                        class="rounded-lg border border-slate-700/70 px-3 py-1.5
+               hover:border-neon-300/60 hover:text-neon-200">
+                    Contact
+                </button>
+            </div>
+
+            <button id="menuBtn"
+                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
+                    type="button">
+                Menu
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
+            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
+                <div class="flex flex-col gap-3">
+                    <a class="hover:text-neon-200" href="experience.html">Experience</a>
+                    <a class="hover:text-neon-200" href="research.html">Research</a>
+                    <a class="hover:text-neon-200" href="skills.html">Skills</a>
+                    <a class="hover:text-neon-200" href="contact.html">Contact</a>
+                    <button id="themeBtnMobile"
+                            class="mt-2 rounded-lg border border-slate-700/70 px-3 py-2 hover:border-neon-300/60 hover:text-neon-200"
+                            type="button">
+                        Toggle Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <main class="relative z-10 mx-auto max-w-6xl px-4 pb-16">
+        <section class="relative overflow-hidden rounded-2xl border border-slate-800 bg-ink-900/40 p-7 md:p-10 shadow-glow scanline">
+            <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+
+                <div class="max-w-2xl">
+                    <p class="font-mono text-neon-300 text-sm">status: online • focus: security + research</p>
+
+                    <h1 class="mt-3 font-mono text-3xl md:text-4xl tracking-tight">
+                      <span class="name-rotate">
+                        <span class="front typewriter">Dakshitha Perera</span>
+                        <span class="back">d42kw01f</span>
+                      </span>
+                    </h1>
+
+
+
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Cyber Security Engineer with hands-on experience in malware analysis, penetration testing, web applications,
+                        and AI projects, focused on building secure and resilient systems.
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="mt-6 flex flex-wrap items-center gap-4 font-mono text-sm">
+
+                        <!-- Download CV -->
+                        <a href="assets/cv/Dakshitha_Perera_CV.pdf"
+                           class="rounded-xl bg-neon-400/10 border border-neon-400/30 px-4 py-2 hover:bg-neon-400/15 hover:border-neon-300/60">
+                            Download CV
+                        </a>
+
+                        <!-- Divider -->
+                        <span class="h-6 w-px bg-slate-700"></span>
+
+                        <!-- Social / Profile Icons -->
+                        <div class="flex items-center gap-6 text-slate-400">
+
+                            <!-- GitHub -->
+                            <a href="https://github.com/d42kw01f" target="_blank" rel="noopener noreferrer"
+                               aria-label="GitHub"
+                               class="hover:text-neon-300 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2c2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2a4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0c-2.4-1.6-3.5-1.3-3.5-1.3a4.2 4.2 0 0 0-.1 3.2a4.6 4.6 0 0 0-1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6.6-.6 1.2-.5 2v3.5" />
+                                </svg>
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://www.linkedin.com/in/dakshitha-navodya-170141198" target="_blank" rel="noopener noreferrer"
+                               aria-label="LinkedIn"
+                               class="hover:text-neon-300 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                    <line x1="8" y1="11" x2="8" y2="16"/>
+                                    <line x1="8" y1="8" x2="8" y2="8.01"/>
+                                    <line x1="12" y1="16" x2="12" y2="11"/>
+                                    <path d="M16 16v-3a2 2 0 0 0-4 0"/>
+                                </svg>
+                            </a>
+
+                            <!-- Kaggle -->
+                            <a href="https://kaggle.com/d42kw01f" target="_blank" rel="noopener noreferrer"
+                               aria-label="Kaggle"
+                               class="hover:text-neon-300 transition">
+                                <!-- Simple "K" style icon (clean & lightweight) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M7 4v16"/>
+                                    <path d="M17 4l-7 8l7 8"/>
+                                </svg>
+                            </a>
+
+                            <!-- Hugging Face -->
+                            <a href="https://huggingface.co/d42kw01f" target="_blank" aria-label="Hugging Face" class="hover:text-neon-300 transition"> <svg class="h-5 w-5" viewBox="0 0 36 36" fill="currentColor"> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Hugging Face</title><path d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/></svg> </svg> </a>
+
+                            <!-- Hack The Box -->
+                            <a href="https://www.hackthebox.com/profile/d42kw01f" target="_blank" rel="noopener noreferrer"
+                               aria-label="Hack The Box"
+                               class="hover:text-neon-300 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M21 16v-8l-9-5l-9 5v8l9 5l9-5z"/>
+                                    <path d="M12 22v-10"/>
+                                    <path d="M12 12l9-5"/>
+                                    <path d="M12 12l-9-5"/>
+                                </svg>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-4 text-sm text-slate-400">
+                        <span class="font-mono">Sri Lanka • Remote-ready |</span>
+                        <span class="font-mono">Cloud • Linux • AD • NLP</span>
+                    </div>
+                </div>
+
+                <!-- mini terminal card -->
+                <div class="w-full md:w-[360px]">
+                    <div class="rounded-2xl border border-slate-800 bg-ink-950/70 p-4">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2.5 w-2.5 rounded-full bg-red-400/70"></span>
+                            <span class="h-2.5 w-2.5 rounded-full bg-yellow-300/70"></span>
+                            <span class="h-2.5 w-2.5 rounded-full bg-neon-300/70"></span>
+                            <span class="ml-2 font-mono text-xs text-slate-400">whoami</span>
+                        </div>
+                        <pre class="mt-4 text-sm leading-relaxed text-slate-300 font-mono">
+$ role
+IT Ops & Cyber Security | AI
+
+$ current
+NLP research + security automation
+
+$ interests
+AI & Machine Learning, zero-days,
+Pen Testing, Malware Reverse Engineering</pre>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FEATURED -->
+        <!-- FEATURED -->
+        <section class="mt-10">
+            <div class="flex items-center justify-between">
+                <h2 class="font-mono text-xl">Featured Research</h2>
+                <a class="font-mono text-sm text-slate-400 hover:text-neon-200" href="research.html">See all →</a>
+            </div>
+
+            <div class="mt-4 grid gap-4 md:grid-cols-3">
+
+                <!-- Card 1 -->
+                <article class="rounded-2xl border border-slate-800 bg-ink-1100/35 p-5 hover:border-neon-300/40 transition">
+                    <p class="font-mono text-xs text-neon-300">AI • NLP • Scraping</p>
+                    <h3 class="mt-2 font-mono text-lg">Election Prediction via Social Media</h3>
+                    <p class="mt-2 text-sm text-slate-300">
+                        End-to-end pipeline: Puppeteer scraping, political detection, engagement weighting, MongoDB, Flask API, Nuxt dashboard.
+                    </p>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="rounded-2xl border border-slate-800 bg-ink-1100/35 p-5 hover:border-neon-300/40 transition">
+                    <p class="font-mono text-xs text-neon-300">NLP • Language Models</p>
+                    <h3 class="mt-2 font-mono text-lg">Sinhala & Tamil RoBERTa</h3>
+                    <p class="mt-2 text-sm text-slate-300">
+                        Pre-trained RoBERTa models for low-resource languages using Masked Language Modeling (MLM) on OSCAR.
+                    </p>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="rounded-2xl border border-slate-800 bg-ink-1100/35 p-5 hover:border-neon-300/40 transition">
+                    <p class="font-mono text-xs text-neon-300">Computer Vision • DL</p>
+                    <h3 class="mt-2 font-mono text-lg">Asian Faces Classification</h3>
+                    <p class="mt-2 text-sm text-slate-300">
+                        Deep learning–based image classification model. Research/learning focused, with bias and ethics awareness.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+
+        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
