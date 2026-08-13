@@ -3,181 +3,98 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Get in touch with Dakshitha Perera about cybersecurity, research collaborations, and open-source or academic projects." />
     <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
     <link rel="manifest" href="assets/images/site.webmanifest" />
-    <title>Contact | Dakshitha Perera</title>
+    <title>Contact — Dakshitha Perera</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
-                        sans: ["ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Helvetica", "Arial"]
-                    },
-                    colors: {
-                        ink: {
-                            950: "#070A0F",
-                            900: "#0B1020",
-                            800: "#0F172A"
-                        },
-                        neon: {
-                            400: "#22c55e",
-                            300: "#34d399",
-                            200: "#5eead4"
-                        }
-                    },
-                    boxShadow: {
-                        glow: "0 0 0 1px rgba(34,197,94,.25), 0 0 28px rgba(34,197,94,.15)",
-                    }
-                }
-            }
-        }
-    </script>
-
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="bg-ink-950 text-slate-100">
-<div class="relative min-h-screen grid-bg">
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+<body class="bg-bg text-paper-200">
 
-    <!-- NAV -->
-    <header class="relative z-10">
-        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
-            <a href="index.html" class="font-mono tracking-tight text-lg">
-                <span class="text-neon-300">~/</span>dakshitha
-            </a>
+<!-- MASTHEAD -->
+<header class="masthead">
+    <nav class="mx-auto flex max-w-page items-center justify-between px-6 py-6">
+        <a href="index.html" class="brand"><span class="brand-slash">~/</span>dakshitha</a>
 
-            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
-                <a class="hover:text-neon-200" href="experience.html">Experience</a>
-                <a class="hover:text-neon-200" href="research.html">Research</a>
-                <a class="hover:text-neon-200" href="skills.html">Skills</a>
-                <a class="hover:text-neon-200" href="writeups.html">Write-ups</a>
-
-                <button type="button"
-                        onclick="window.location.href='contact.html'"
-                        class="rounded-lg border border-slate-700/70 px-3 py-1.5
-               hover:border-neon-300/60 hover:text-neon-200">
-                    Contact
-                </button>
-            </div>
-
-            <button id="menuBtn"
-                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
-                    type="button">
-                Menu
-            </button>
-        </nav>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
-            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
-                <div class="flex flex-col gap-3">
-                    <a class="hover:text-neon-200" href="experience.html">Experience</a>
-                    <a class="hover:text-neon-200" href="research.html">Research</a>
-                    <a class="hover:text-neon-200" href="skills.html">Skills</a>
-                    <a class="hover:text-neon-200" href="writeups.html">Write-ups</a>
-                    <button type="button"
-                            onclick="window.location.href='contact.html'"
-                            class="rounded-lg border border-slate-700/70 px-3 py-1.5
-               hover:border-neon-300/60 hover:text-neon-200">
-                        Contact
-                    </button>
-                </div>
-            </div>
+        <div class="hidden items-center gap-7 md:flex">
+            <a class="navlink" href="experience.html">Experience</a>
+            <a class="navlink" href="research.html">Research</a>
+            <a class="navlink" href="skills.html">Skills</a>
+            <a class="navlink" href="writeups.html">Write-ups</a>
+            <a class="navlink" href="contact.html">Contact</a>
         </div>
-    </header>
 
-    <!-- CONTENT -->
-    <main class="relative z-10 mx-auto max-w-6xl px-4 pb-16">
-        <section class="relative overflow-hidden rounded-2xl border border-slate-800 bg-ink-900/40 p-7 md:p-10 shadow-glow scanline">
+        <button id="menuBtn" class="navlink md:hidden" type="button" aria-expanded="false" aria-controls="mobileMenu">
+            Menu
+        </button>
+    </nav>
 
-            <p class="font-mono text-neon-300 text-sm">contact / reach-out</p>
+    <div id="mobileMenu" class="hidden border-t border-line-soft md:hidden">
+        <div class="mx-auto flex max-w-page flex-col gap-4 px-6 py-5">
+            <a class="navlink" href="experience.html">Experience</a>
+            <a class="navlink" href="research.html">Research</a>
+            <a class="navlink" href="skills.html">Skills</a>
+            <a class="navlink" href="writeups.html">Write-ups</a>
+            <a class="navlink" href="contact.html">Contact</a>
+        </div>
+    </div>
+</header>
 
-            <h1 class="mt-3 font-mono text-3xl md:text-4xl tracking-tight">
-                Let’s Connect
-            </h1>
+<main class="mx-auto max-w-page px-6">
 
-            <p class="mt-4 max-w-2xl text-slate-300 leading-relaxed">
-                I’m open to discussions around cybersecurity, research collaborations,
-                and open-source or academic projects.
-                The fastest way to reach me is via email or LinkedIn.
-            </p>
+    <section class="pt-16 pb-12 md:pt-20">
+        <p class="label">Reach out</p>
+        <h1 class="h-mono mt-5 text-3xl md:text-4xl">Let's connect</h1>
+        <p class="lede mt-6 max-w-measure">
+            I'm open to discussions around cybersecurity, research collaborations, and open-source or
+            academic projects. The fastest way to reach me is by email or LinkedIn.
+        </p>
+    </section>
 
-            <!-- Contact blocks -->
-            <div class="mt-8 grid gap-6 md:grid-cols-2">
-
-                <!-- Email -->
-                <div class="rounded-xl border border-slate-800 bg-ink-950/70 p-5">
-                    <p class="font-mono text-sm text-neon-300">Email</p>
-                    <p class="mt-2 text-slate-300">
-                        <a href="mailto:d42kw01f@gmail.com"
-                           class="hover:text-neon-200">
-                            d42kw01f@gmail.com
-                        </a>
-                    </p>
-                    <p class="mt-1 text-xs text-slate-500 font-mono">
-                        preferred for formal communication
-                    </p>
-                </div>
-
-                <!-- Location -->
-                <div class="rounded-xl border border-slate-800 bg-ink-950/70 p-5">
-                    <p class="font-mono text-sm text-neon-300">Location</p>
-                    <p class="mt-2 text-slate-300">
-                        Sri Lanka • Open to remote
-                    </p>
-                    <p class="mt-1 text-xs text-slate-500 font-mono">
-                        UTC +5:30
-                    </p>
-                </div>
-
+    <section class="pb-16">
+        <dl class="facts max-w-measure">
+            <div>
+                <dt>Email</dt>
+                <dd>
+                    <a class="link" href="mailto:d42kw01f@gmail.com">d42kw01f@gmail.com</a>
+                    <span class="mt-1 block font-mono text-xs text-paper-400">preferred for formal communication</span>
+                </dd>
             </div>
-
-            <!-- Profiles -->
-            <div class="mt-10">
-                <p class="font-mono text-neon-300 text-sm">profiles</p>
-
-                <div class="mt-4 flex flex-wrap gap-4 font-mono text-sm">
-                    <a href="https://github.com/d42kw01f" target="_blank"
-                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                        GitHub
-                    </a>
-                    <a href="https://www.linkedin.com/in/dakshitha-navodya-170141198" target="_blank"
-                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                        LinkedIn
-                    </a>
-                    <a href="https://huggingface.co/d42kw01f" target="_blank"
-                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                        HuggingFace
-                    </a>
-                    <a href="https://kaggle.com/d42kw01f" target="_blank"
-                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                        Kaggle
-                    </a>
-                    <a href="https://www.hackthebox.com/profile/d42kw01f" target="_blank"
-                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                        HackTheBox
-                    </a>
-                </div>
+            <div>
+                <dt>Location</dt>
+                <dd>
+                    Sri Lanka — open to remote
+                    <span class="mt-1 block font-mono text-xs text-paper-400">UTC +5:30</span>
+                </dd>
             </div>
+        </dl>
+    </section>
 
-        </section>
+    <section class="pb-20">
+        <h2 class="label">Profiles</h2>
+        <div class="mt-4 flex flex-wrap gap-3">
+            <a class="btn" href="https://github.com/d42kw01f" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a class="btn" href="https://www.linkedin.com/in/dakshitha-navodya-170141198" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a class="btn" href="https://huggingface.co/d42kw01f" target="_blank" rel="noopener noreferrer">Hugging Face ↗</a>
+            <a class="btn" href="https://kaggle.com/d42kw01f" target="_blank" rel="noopener noreferrer">Kaggle ↗</a>
+            <a class="btn" href="https://www.hackthebox.com/profile/d42kw01f" target="_blank" rel="noopener noreferrer">Hack The Box ↗</a>
+        </div>
+    </section>
+</main>
 
-        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
-            </div>
-        </footer>
-    </main>
-</div>
+<footer class="border-t border-line-soft">
+    <div class="mx-auto flex max-w-page flex-col gap-2 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <span class="label">© <span id="year"></span> Dakshitha Perera</span>
+        <span class="label">d42kw01f</span>
+    </div>
+</footer>
 
 <script src="app.js"></script>
 </body>

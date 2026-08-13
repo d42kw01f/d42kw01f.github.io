@@ -51,6 +51,12 @@ writeups/
   point the renderer at an arbitrary path.
 - Rendered Markdown is sanitised with DOMPurify before it hits the DOM.
 
+## Styling
+
+Article typography lives in `styles.css` under `.wu-prose`. The palette (background, hairline,
+text, and the single accent colour) is defined once in `theme.js` and mirrored as CSS variables at
+the top of `styles.css` — change it in both places and the whole site follows.
+
 ## Previewing locally
 
 The pages use `fetch()`, which browsers block on `file://`. Serve the site root over HTTP:

@@ -1,104 +1,306 @@
-/* Subtle grid background */
-.grid-bg {
-    background-image:
-            linear-gradient(to right, rgba(34, 197, 94, 0.06) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(34, 197, 94, 0.06) 1px, transparent 1px);
-    background-size: 36px 36px;
-    background-position: center;
-}
-
-/* Scanline overlay */
-.scanline::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.00),
-            rgba(255, 255, 255, 0.02),
-            rgba(255, 255, 255, 0.00)
-    );
-    mix-blend-mode: overlay;
-    opacity: 0.35;
-    animation: scan 8s linear infinite;
-}
-
-@keyframes scan {
-    0% { transform: translateY(-25%); }
-    100% { transform: translateY(25%); }
-}
-.typewriter{
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-
-    border-right: 2px solid currentColor;
-
-    width: 0;
-    animation: typing 1.8s steps(16, end) .2s forwards,
-    caret .7s step-end infinite;
-}
-
-/* 16 = number of characters in "Dakshitha Perera" */
-@keyframes typing{
-    from { width: 0; }
-    to   { width: 16ch; }
-}
-
-@keyframes caret{
-    50% { border-right-color: transparent; }
-}
-.name-rotate{
-    position: relative;
-    display: inline-block;
-    perspective: 800px;
-}
-
-.name-rotate span{
-    display: inline-block;
-    backface-visibility: hidden;
-    transition: transform .6s cubic-bezier(.4,0,.2,1),
-    opacity .4s ease;
-}
-
-/* front (real name) */
-.name-rotate .front{
-    transform: rotateX(0deg);
-}
-
-/* back (alias) */
-.name-rotate .back{
-    position: absolute;
-    inset: 0;
-    transform: rotateX(-90deg);
-    opacity: 0;
-}
-
-/* hover swap */
-.name-rotate:hover .front{
-    transform: rotateX(90deg);
-    opacity: 0;
-}
-
-.name-rotate:hover .back{
-    transform: rotateX(0deg);
-    opacity: 1;
-}
-
-/* keep cursor aligned */
-.typewriter{
-    border-right: 2px solid currentColor;
-}
-
 /* ==========================================================================
-   Write-up article typography (.wu-prose)
-   Rendered Markdown lives inside #articleBody on writeups/article.html
+   d42kw01f.github.io — editorial design system
+   Reading-first: serif body, mono headings, hairline rules, one accent.
+   Palette tokens are mirrored in theme.js for Tailwind utilities.
    ========================================================================== */
 
+:root{
+    --bg:        #0F1012;
+    --surface:   #16181B;
+    --raised:    #1B1E22;
+    --line:      #272B30;
+    --line-soft: #1D2024;
+
+    --text:  #ECEAE7;
+    --body:  #BDBAB5;
+    --muted: #8A8781;
+    --faint: #5E5C57;
+
+    --accent:     #4CC38A;
+    --accent-soft:#7FD9AE;
+
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+    --serif: ui-serif, Georgia, Cambria, "Palatino Linotype",
+    "Times New Roman", serif;
+}
+
+html{
+    -webkit-text-size-adjust: 100%;
+}
+
+body{
+    background: var(--bg);
+    color: var(--body);
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+::selection{
+    background: rgba(76, 195, 138, .22);
+    color: var(--text);
+}
+
+:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Small shared pieces
+   -------------------------------------------------------------------------- */
+
+/* Uppercase mono label — section eyebrows, table headers, meta rows */
+.label{
+    font-family: var(--mono);
+    font-size: .6875rem;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.label-accent{ color: var(--accent); }
+
+/* Hairline rule */
+.rule{
+    height: 1px;
+    background: var(--line-soft);
+    border: 0;
+}
+
+/* Headings keep the monospace identity */
+.h-mono{
+    font-family: var(--mono);
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+/* Lede paragraph under a page title */
+.lede{
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--body);
+}
+
+/* Standard body links */
+.link{
+    color: var(--text);
+    text-decoration: none;
+    background-image: linear-gradient(var(--line), var(--line));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 1px;
+    transition: color .15s ease, background-image .15s ease;
+}
+.link:hover{
+    color: var(--accent-soft);
+    background-image: linear-gradient(var(--accent), var(--accent));
+}
+
+/* Dashed list — a hairline marker instead of a disc.
+   Shared by page content and rendered Markdown (.wu-prose ul). */
+.list-dash,
+.wu-prose ul{
+    list-style: none;
+    padding-left: 1.15rem;
+}
+.list-dash > li,
+.wu-prose ul > li{ position: relative; }
+.list-dash > li::before,
+.wu-prose ul > li::before{
+    content: "";
+    position: absolute;
+    left: -1.15rem;
+    top: .85em;
+    width: .5rem;
+    height: 1px;
+    background: var(--accent);
+    opacity: .65;
+}
+
+/* Quiet inline chip — tags, tech labels */
+.chip{
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: .6875rem;
+    line-height: 1.6;
+    color: var(--muted);
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    padding: .15rem .6rem;
+    white-space: nowrap;
+    transition: border-color .15s ease, color .15s ease;
+}
+a.chip:hover,
+button.chip:hover{ color: var(--accent-soft); border-color: var(--accent); }
+
+.chip-on{
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(76, 195, 138, .08);
+}
+
+/* Text button / quiet CTA */
+.btn{
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: .8125rem;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.btn:hover{
+    color: var(--accent-soft);
+    border-color: var(--accent);
+    background: rgba(76, 195, 138, .06);
+}
+
+/* --------------------------------------------------------------------------
+   Masthead + navigation
+   -------------------------------------------------------------------------- */
+
+.masthead{
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.brand{
+    font-family: var(--mono);
+    font-size: .9375rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.brand .brand-slash{ color: var(--accent); }
+
+.navlink{
+    font-family: var(--mono);
+    font-size: .8125rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color .15s ease, border-color .15s ease;
+}
+.navlink:hover{ color: var(--text); }
+.navlink[aria-current="page"]{
+    color: var(--text);
+    border-bottom-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Entry list — the repeating unit on index / research / experience / write-ups
+   Hairline separated rows rather than boxed cards.
+   -------------------------------------------------------------------------- */
+
+.entry-list{
+    border-top: 1px solid var(--line-soft);
+}
+
+.entry{
+    display: block;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity .15s ease;
+}
+
+.entry-meta{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem .75rem;
+    font-family: var(--mono);
+    font-size: .6875rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.entry-meta .sep{ color: var(--faint); }
+.entry-meta .cat{ color: var(--accent); }
+
+.entry-title{
+    margin-top: .85rem;
+    font-family: var(--mono);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    transition: color .15s ease;
+}
+a.entry:hover .entry-title,
+.entry a:hover .entry-title{ color: var(--accent-soft); }
+
+.entry-desc{
+    margin-top: .75rem;
+    max-width: 40rem;
+    color: var(--body);
+}
+
+.entry-foot{
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+}
+
+/* Small arrow that nudges on hover */
+.arrow{
+    display: inline-block;
+    font-family: var(--mono);
+    color: var(--accent);
+    transition: transform .15s ease;
+}
+a:hover .arrow,
+.entry:hover .arrow{ transform: translateX(3px); }
+
+/* --------------------------------------------------------------------------
+   Definition-style metadata block (replaces the old terminal card)
+   -------------------------------------------------------------------------- */
+
+.facts{
+    border-top: 1px solid var(--line-soft);
+}
+.facts div{
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 1rem;
+    padding: .85rem 0;
+    border-bottom: 1px solid var(--line-soft);
+}
+.facts dt{
+    font-family: var(--mono);
+    font-size: .6875rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: .25rem;
+}
+.facts dd{ color: var(--body); margin: 0; }
+
+@media (max-width: 30rem){
+    .facts div{ grid-template-columns: 1fr; gap: .2rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Write-up article typography (.wu-prose)
+   Rendered Markdown lives inside #articleBody on writeups/article.html
+   -------------------------------------------------------------------------- */
+
 .wu-prose{
-    color: #cbd5e1;                       /* slate-300 */
-    font-size: 1rem;
+    color: var(--body);
+    font-family: var(--serif);
+    font-size: 1.125rem;
     line-height: 1.75;
     overflow-wrap: break-word;
 }
@@ -109,219 +311,256 @@
 .wu-prose h2,
 .wu-prose h3,
 .wu-prose h4{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
-    color: #f1f5f9;                       /* slate-100 */
-    scroll-margin-top: 2rem;
+    font-family: var(--mono);
+    color: var(--text);
+    letter-spacing: -0.01em;
     line-height: 1.3;
+    scroll-margin-top: 2rem;
 }
 
 .wu-prose h2{
-    margin: 3rem 0 1rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid #1e293b;        /* slate-800 */
-    font-size: 1.5rem;
+    margin: 3.25rem 0 1.25rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line-soft);
+    font-size: 1.3125rem;
 }
 
 .wu-prose h3{
-    margin: 2.25rem 0 .75rem;
-    font-size: 1.15rem;
-    color: #5eead4;                       /* neon-200 */
+    margin: 2.5rem 0 .75rem;
+    font-size: 1.0625rem;
+    color: var(--accent-soft);
 }
 
 .wu-prose h4{
-    margin: 1.75rem 0 .5rem;
-    font-size: 1rem;
-    color: #94a3b8;                       /* slate-400 */
+    margin: 2rem 0 .5rem;
+    font-size: .9375rem;
+    color: var(--muted);
 }
 
-/* Section anchor links */
+/* Section anchors */
 .wu-prose .wu-anchor{
     margin-left: .5rem;
-    color: #334155;
+    font-size: .8em;
+    color: var(--faint);
     text-decoration: none;
-    font-weight: 400;
     opacity: 0;
     transition: opacity .15s ease, color .15s ease;
 }
 .wu-prose h2:hover .wu-anchor,
 .wu-prose h3:hover .wu-anchor,
-.wu-prose .wu-anchor:focus-visible{ opacity: 1; color: #34d399; }
+.wu-prose .wu-anchor:focus-visible{ opacity: 1; color: var(--accent); }
 
 /* Text */
-.wu-prose p{ margin: 1.15rem 0; }
-.wu-prose strong{ color: #e2e8f0; font-weight: 600; }
-.wu-prose em{ color: #cbd5e1; }
-.wu-prose hr{ margin: 2.5rem 0; border: 0; border-top: 1px solid #1e293b; }
+.wu-prose p{ margin: 1.35rem 0; }
+.wu-prose strong{ color: var(--text); font-weight: 600; }
+.wu-prose hr{ margin: 3rem 0; border: 0; border-top: 1px solid var(--line-soft); }
 
 .wu-prose a{
-    color: #34d399;                       /* neon-300 */
+    color: var(--text);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(52, 211, 153, .4);
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--accent-dim, #2C6E4E);
+    transition: color .15s ease, text-decoration-color .15s ease;
 }
-.wu-prose a:hover{ color: #5eead4; text-decoration-color: currentColor; }
+.wu-prose a:hover{ color: var(--accent-soft); text-decoration-color: var(--accent); }
 
 /* Lists */
 .wu-prose ul,
-.wu-prose ol{ margin: 1.15rem 0; padding-left: 1.4rem; }
-.wu-prose ul{ list-style: disc; }
-.wu-prose ol{ list-style: decimal; }
-.wu-prose li{ margin: .5rem 0; }
-.wu-prose li::marker{ color: #22c55e; }
+.wu-prose ol{ margin: 1.35rem 0; }
+.wu-prose ol{ list-style: decimal; padding-left: 1.5rem; }
+.wu-prose li{ margin: .55rem 0; }
+.wu-prose ol li::marker{
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: .875rem;
+}
 .wu-prose li > ul,
 .wu-prose li > ol{ margin: .5rem 0; }
 
-/* Blockquote — used for the scope / authorization notice */
+/* Blockquote — the scope / authorization notice */
 .wu-prose blockquote{
-    margin: 1.75rem 0;
-    padding: 1rem 1.25rem;
-    border-left: 3px solid rgba(34, 197, 94, .5);
-    border-radius: 0 .75rem .75rem 0;
-    background: rgba(34, 197, 94, .05);
-    color: #94a3b8;
-    font-size: .925rem;
+    margin: 2rem 0;
+    padding: 0 0 0 1.5rem;
+    border-left: 1px solid var(--accent);
+    color: var(--muted);
+    font-size: .9375rem;
+    line-height: 1.7;
+    font-style: normal;
 }
-.wu-prose blockquote p{ margin: .5rem 0; }
+.wu-prose blockquote p{ margin: .6rem 0; }
 .wu-prose blockquote > p:first-child{ margin-top: 0; }
 .wu-prose blockquote > p:last-child{ margin-bottom: 0; }
 
 /* Inline code */
 .wu-prose code{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
-    font-size: .875em;
-    color: #5eead4;
-    background: rgba(15, 23, 42, .8);
-    border: 1px solid #1e293b;
-    border-radius: .3rem;
-    padding: .12em .38em;
+    font-family: var(--mono);
+    font-size: .8125em;
+    color: var(--accent-soft);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: .1em .35em;
 }
 
 /* Code blocks */
 .wu-prose pre{
     position: relative;
-    margin: 1.5rem 0;
-    padding: 1.1rem 1.15rem;
-    background: #070A0F;
-    border: 1px solid #1e293b;
-    border-radius: .85rem;
+    margin: 1.75rem 0;
+    padding: 1.15rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
     overflow-x: auto;
-    font-size: .875rem;
-    line-height: 1.65;
+    font-size: .8125rem;
+    line-height: 1.7;
     tab-size: 4;
 }
 .wu-prose pre code{
     display: block;
     padding: 0;
     background: none;
-    border: 0;
     border-radius: 0;
-    color: #cbd5e1;
+    color: var(--body);
     font-size: inherit;
 }
 
-/* Copy button on code blocks */
+/* Copy button */
 .wu-copy{
     position: absolute;
-    top: .55rem;
-    right: .55rem;
-    padding: .2rem .55rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: .7rem;
-    color: #64748b;
-    background: rgba(11, 16, 32, .9);
-    border: 1px solid #1e293b;
-    border-radius: .4rem;
+    top: .5rem;
+    right: .5rem;
+    padding: .15rem .5rem;
+    font-family: var(--mono);
+    font-size: .6875rem;
+    color: var(--faint);
+    background: var(--bg);
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
     cursor: pointer;
     opacity: 0;
     transition: opacity .15s ease, color .15s ease, border-color .15s ease;
 }
 .wu-prose pre:hover .wu-copy,
 .wu-copy:focus-visible{ opacity: 1; }
-.wu-copy:hover{ color: #5eead4; border-color: rgba(52, 211, 153, .5); }
+.wu-copy:hover{ color: var(--accent-soft); border-color: var(--accent); }
 
-@media (hover: none){
-    .wu-copy{ opacity: 1; }
-}
+@media (hover: none){ .wu-copy{ opacity: 1; } }
 
 /* Tables */
 .wu-table-wrap{
-    margin: 1.75rem 0;
+    margin: 2rem 0;
     overflow-x: auto;
-    border: 1px solid #1e293b;
-    border-radius: .85rem;
 }
 .wu-prose table{
     width: 100%;
     border-collapse: collapse;
+    font-family: var(--sans, inherit);
     font-size: .875rem;
+    line-height: 1.6;
 }
 .wu-prose thead th{
-    position: sticky;
-    top: 0;
-    background: #0B1020;
-    color: #5eead4;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: .6875rem;
     font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
     text-align: left;
     white-space: nowrap;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--line);
 }
-.wu-prose th,
 .wu-prose td{
-    padding: .7rem .9rem;
-    border-bottom: 1px solid #1e293b;
+    padding: .9rem 1.25rem .9rem 0;
+    border-bottom: 1px solid var(--line-soft);
     vertical-align: top;
+    color: var(--body);
 }
+.wu-prose th{ padding-right: 1.25rem; }
+.wu-prose td:first-child{ color: var(--text); }
 .wu-prose tbody tr:last-child td{ border-bottom: 0; }
-.wu-prose tbody tr:hover{ background: rgba(34, 197, 94, .035); }
 
 /* Figures */
-.wu-prose figure{ margin: 2rem 0; }
+.wu-prose figure{ margin: 2.5rem 0; }
 .wu-prose figure img{
     display: block;
     width: 100%;
     height: auto;
-    border: 1px solid #1e293b;
-    border-radius: .85rem;
-    background: #070A0F;
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    background: var(--surface);
 }
-.wu-prose figure a{ text-decoration: none; }
+.wu-prose figure a{ text-decoration: none; border: 0; }
 .wu-prose figcaption{
-    margin-top: .65rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: .75rem;
-    color: #64748b;
-    text-align: center;
+    margin-top: .85rem;
+    padding-left: .1rem;
+    font-family: var(--mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--faint);
 }
 
-/* highlight.js tokens, matched to the site palette */
+/* Table of contents */
+.toc-link{
+    display: block;
+    font-family: var(--mono);
+    font-size: .75rem;
+    line-height: 1.5;
+    color: var(--muted);
+    text-decoration: none;
+    padding: .3rem 0 .3rem .75rem;
+    border-left: 1px solid var(--line-soft);
+    transition: color .15s ease, border-color .15s ease;
+}
+.toc-link:hover{ color: var(--text); }
+.toc-link.is-active{ color: var(--accent); border-left-color: var(--accent); }
+.toc-sub{ padding-left: 1.5rem; font-size: .7rem; }
+
+/* --------------------------------------------------------------------------
+   Syntax highlighting — desaturated to sit inside body text
+   -------------------------------------------------------------------------- */
+
 .hljs-comment,
-.hljs-quote{ color: #475569; font-style: italic; }
+.hljs-quote{ color: #5E5C57; font-style: italic; }
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-literal,
-.hljs-doctag{ color: #34d399; }
+.hljs-doctag{ color: #7FD9AE; }
 .hljs-string,
 .hljs-regexp,
-.hljs-addition{ color: #5eead4; }
+.hljs-addition{ color: #C8B98F; }
 .hljs-number,
 .hljs-symbol,
-.hljs-bullet{ color: #fbbf24; }
+.hljs-bullet{ color: #C8B98F; }
 .hljs-title,
 .hljs-title.class_,
 .hljs-title.function_,
 .hljs-section,
-.hljs-name{ color: #93c5fd; }
+.hljs-name{ color: #9BB8D4; }
 .hljs-attr,
 .hljs-attribute,
 .hljs-variable,
-.hljs-template-variable{ color: #e2e8f0; }
+.hljs-template-variable{ color: var(--body); }
 .hljs-type,
-.hljs-built_in,
-.hljs-class .hljs-title{ color: #a5b4fc; }
+.hljs-built_in{ color: #9BB8D4; }
 .hljs-meta,
-.hljs-meta .hljs-keyword{ color: #64748b; }
-.hljs-deletion{ color: #f87171; }
+.hljs-meta .hljs-keyword{ color: var(--faint); }
+.hljs-deletion{ color: #C98F8F; }
 .hljs-emphasis{ font-style: italic; }
 .hljs-strong{ font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

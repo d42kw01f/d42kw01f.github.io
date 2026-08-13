@@ -9,127 +9,92 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
     <link rel="manifest" href="assets/images/site.webmanifest" />
-    <title>Write-ups | Dakshitha Perera</title>
+    <title>Write-ups — Dakshitha Perera</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
-                    },
-                    colors: {
-                        ink: { 950:"#070A0F", 900:"#0B1020", 800:"#0F172A" },
-                        neon: { 400:"#22c55e", 300:"#34d399", 200:"#5eead4" }
-                    },
-                    boxShadow: {
-                        glow:"0 0 0 1px rgba(34,197,94,.25), 0 0 28px rgba(34,197,94,.15)",
-                    }
-                }
-            }
-        }
-    </script>
-
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="bg-ink-950 text-slate-100">
-<div class="relative min-h-screen grid-bg">
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+<body class="bg-bg text-paper-200">
 
-    <!-- NAV -->
-    <header class="relative z-10">
-        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
-            <a href="index.html" class="font-mono tracking-tight text-lg">
-                <span class="text-neon-300">~/</span>dakshitha
-            </a>
+<!-- MASTHEAD -->
+<header class="masthead">
+    <nav class="mx-auto flex max-w-page items-center justify-between px-6 py-6">
+        <a href="index.html" class="brand"><span class="brand-slash">~/</span>dakshitha</a>
 
-            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
-                <a class="hover:text-neon-200" href="experience.html">Experience</a>
-                <a class="hover:text-neon-200" href="research.html">Research</a>
-                <a class="hover:text-neon-200" href="skills.html">Skills</a>
-                <a class="text-neon-200" href="writeups.html">Write-ups</a>
-
-                <button type="button"
-                        onclick="window.location.href='contact.html'"
-                        class="rounded-lg border border-slate-700/70 px-3 py-1.5
-               hover:border-neon-300/60 hover:text-neon-200">
-                    Contact
-                </button>
-            </div>
-
-            <button id="menuBtn"
-                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
-                    type="button">
-                Menu
-            </button>
-        </nav>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
-            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
-                <div class="flex flex-col gap-3">
-                    <a class="hover:text-neon-200" href="experience.html">Experience</a>
-                    <a class="hover:text-neon-200" href="research.html">Research</a>
-                    <a class="hover:text-neon-200" href="skills.html">Skills</a>
-                    <a class="text-neon-200" href="writeups.html">Write-ups</a>
-                    <button type="button"
-                            onclick="window.location.href='contact.html'"
-                            class="rounded-lg border border-slate-700/70 px-3 py-1.5
-               hover:border-neon-300/60 hover:text-neon-200">
-                        Contact
-                    </button>
-                </div>
-            </div>
+        <div class="hidden items-center gap-7 md:flex">
+            <a class="navlink" href="experience.html">Experience</a>
+            <a class="navlink" href="research.html">Research</a>
+            <a class="navlink" href="skills.html">Skills</a>
+            <a class="navlink" href="writeups.html">Write-ups</a>
+            <a class="navlink" href="contact.html">Contact</a>
         </div>
-    </header>
 
-    <!-- CONTENT -->
-    <main class="relative z-10 mx-auto max-w-6xl px-4 pb-16">
-        <section class="rounded-2xl border border-slate-800 bg-ink-900/40 p-7 md:p-10 shadow-glow scanline">
+        <button id="menuBtn" class="navlink md:hidden" type="button" aria-expanded="false" aria-controls="mobileMenu">
+            Menu
+        </button>
+    </nav>
 
-            <p class="font-mono text-neon-300 text-sm">~/writeups</p>
-            <h1 class="mt-3 font-mono text-3xl md:text-4xl">Write-ups</h1>
+    <div id="mobileMenu" class="hidden border-t border-line-soft md:hidden">
+        <div class="mx-auto flex max-w-page flex-col gap-4 px-6 py-5">
+            <a class="navlink" href="experience.html">Experience</a>
+            <a class="navlink" href="research.html">Research</a>
+            <a class="navlink" href="skills.html">Skills</a>
+            <a class="navlink" href="writeups.html">Write-ups</a>
+            <a class="navlink" href="contact.html">Contact</a>
+        </div>
+    </div>
+</header>
 
-            <p class="mt-4 max-w-3xl text-slate-300">
-                Long-form notes from hands-on security work — reverse engineering, mobile and application security,
-                malware analysis, and the occasional AI detour. Each one focuses on the
-                <strong>process and the evidence chain</strong>, not on turnkey exploit paths.
-            </p>
+<main class="mx-auto max-w-page px-6">
 
-            <p class="mt-4 max-w-3xl text-sm text-slate-500">
-                All testing described here was performed on artifacts and environments I was authorized to examine.
-                Institution names, identifiers, endpoints, credentials, and any third-party data are redacted.
-            </p>
+    <section class="pt-16 pb-12 md:pt-20">
+        <p class="label">Notes from the lab</p>
+        <h1 class="h-mono mt-5 text-3xl md:text-4xl">Write-ups</h1>
 
-            <!-- Tag filter -->
-            <div id="tagFilter" class="mt-8 flex flex-wrap gap-2 font-mono text-xs"></div>
+        <p class="lede mt-6 max-w-measure">
+            Long-form notes from hands-on security work — reverse engineering, mobile and application
+            security, malware analysis, and the occasional AI detour. Each one is about the process
+            and the evidence chain, not a turnkey exploit path.
+        </p>
 
-            <!-- Write-up list -->
-            <div id="writeupList" class="mt-8 space-y-6">
-                <p class="font-mono text-sm text-slate-500">Loading write-ups…</p>
-            </div>
+        <p class="mt-6 max-w-measure text-sm text-paper-400">
+            All testing described here was performed on artifacts and environments I was authorized to
+            examine. Institution names, identifiers, endpoints, credentials, and any third-party data
+            are redacted.
+        </p>
+    </section>
 
-            <p id="emptyState" class="mt-8 hidden font-mono text-sm text-slate-500">
-                No write-ups match that tag.
-            </p>
-        </section>
+    <!-- Tag filter -->
+    <section class="pb-2">
+        <div id="tagFilter" class="flex flex-wrap items-center gap-2"></div>
+    </section>
 
-        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
-            <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
-        </footer>
+    <!-- Write-up list -->
+    <section class="pb-20">
+        <div id="writeupList" class="entry-list mt-8">
+            <p class="py-8 font-mono text-xs text-paper-400">Loading…</p>
+        </div>
 
-    </main>
-</div>
+        <p id="emptyState" class="hidden py-8 font-mono text-xs text-paper-400">
+            No write-ups match that tag.
+        </p>
+    </section>
+</main>
+
+<footer class="border-t border-line-soft">
+    <div class="mx-auto flex max-w-page flex-col gap-2 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <span class="label">© <span id="year"></span> Dakshitha Perera</span>
+        <span class="label">d42kw01f</span>
+    </div>
+</footer>
 
 <script src="app.js"></script>
 <script>
 (() => {
     const listEl = document.getElementById("writeupList");
-    const tagEl = document.getElementById("tagFilter");
+    const tagEl  = document.getElementById("tagFilter");
     const emptyEl = document.getElementById("emptyState");
 
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({
@@ -138,43 +103,32 @@
 
     const fmtDate = (iso) => {
         const d = new Date(iso + "T00:00:00Z");
-        if (isNaN(d)) return iso;
-        return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
+        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",
+            { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).toUpperCase();
     };
 
     let posts = [];
     let activeTag = null;
 
     function card(p) {
-        const tags = (p.tags || []).map(t =>
-            `<span class="rounded border border-slate-800 bg-ink-900/60 px-2 py-0.5 text-[11px] text-slate-400">#${esc(t)}</span>`
-        ).join("");
-
         const href = `writeups/article.html?p=${encodeURIComponent(p.slug)}`;
+        const tags = (p.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join("");
 
         return `
-        <article class="group rounded-2xl border border-slate-800 bg-ink-950/60 p-6 transition hover:border-neon-300/40">
-            <div class="flex flex-wrap items-center gap-3 font-mono text-xs text-slate-500">
+        <a class="entry" href="${href}">
+            <div class="entry-meta">
                 <time datetime="${esc(p.date)}">${esc(fmtDate(p.date))}</time>
-                ${p.category ? `<span class="text-slate-700">/</span><span class="text-neon-300">${esc(p.category)}</span>` : ""}
-                ${p.readingTime ? `<span class="text-slate-700">/</span><span>${esc(p.readingTime)} read</span>` : ""}
+                ${p.category ? `<span class="sep">/</span><span class="cat">${esc(p.category)}</span>` : ""}
+                ${p.readingTime ? `<span class="sep">/</span><span>${esc(p.readingTime)}</span>` : ""}
             </div>
 
-            <h2 class="mt-3 font-mono text-xl leading-snug">
-                <a class="hover:text-neon-200" href="${href}">${esc(p.title)}</a>
-            </h2>
+            <h2 class="entry-title">${esc(p.title)}</h2>
+            <p class="entry-desc">${esc(p.description || "")}</p>
 
-            <p class="mt-3 text-slate-300 text-sm leading-relaxed">${esc(p.description || "")}</p>
+            <div class="entry-foot">${tags}</div>
 
-            <div class="mt-4 flex flex-wrap gap-2 font-mono">${tags}</div>
-
-            <div class="mt-5 font-mono text-sm">
-                <a href="${href}"
-                   class="inline-block rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
-                    Read write-up →
-                </a>
-            </div>
-        </article>`;
+            <p class="mt-5 font-mono text-xs text-accent">Read <span class="arrow">→</span></p>
+        </a>`;
     }
 
     function render() {
@@ -185,16 +139,15 @@
 
     function renderTags() {
         const all = [...new Set(posts.flatMap(p => p.tags || []))].sort();
-        const btn = (label, value, active) =>
-            `<button type="button" data-tag="${value === null ? "" : esc(value)}"
-                class="rounded-full border px-3 py-1 transition ${
-                    active
-                        ? "border-neon-300/60 text-neon-200 bg-neon-400/10"
-                        : "border-slate-800 text-slate-400 hover:border-neon-300/40 hover:text-neon-200"
-                }">${esc(label)}</button>`;
 
-        tagEl.innerHTML = btn("all", null, activeTag === null) +
-            all.map(t => btn("#" + t, t, activeTag === t)).join("");
+        const btn = (label, value, active) =>
+            `<button type="button" class="chip ${active ? "chip-on" : ""}"
+                     data-tag="${value === null ? "" : esc(value)}">${esc(label)}</button>`;
+
+        tagEl.innerHTML =
+            `<span class="label mr-2">Filter</span>` +
+            btn("all", null, activeTag === null) +
+            all.map(t => btn(t, t, activeTag === t)).join("");
 
         tagEl.querySelectorAll("button").forEach(b => {
             b.addEventListener("click", () => {
@@ -207,17 +160,14 @@
     }
 
     fetch("writeups/index.json", { cache: "no-cache" })
-        .then(r => {
-            if (!r.ok) throw new Error("HTTP " + r.status);
-            return r.json();
-        })
+        .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
         .then(data => {
             posts = (Array.isArray(data) ? data : [])
                 .filter(p => p && p.slug && p.draft !== true)
                 .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
             if (!posts.length) {
-                listEl.innerHTML = `<p class="font-mono text-sm text-slate-500">No write-ups published yet.</p>`;
+                listEl.innerHTML = `<p class="py-8 font-mono text-xs text-paper-400">No write-ups published yet.</p>`;
                 return;
             }
             renderTags();
@@ -225,11 +175,12 @@
         })
         .catch(() => {
             listEl.innerHTML = `
-                <div class="rounded-2xl border border-slate-800 bg-ink-950/60 p-6">
-                    <p class="font-mono text-sm text-red-300">Could not load the write-up index.</p>
-                    <p class="mt-2 text-sm text-slate-400">
+                <div class="py-8">
+                    <p class="font-mono text-xs text-paper-100">Could not load the write-up index.</p>
+                    <p class="mt-3 max-w-measure text-sm text-paper-400">
                         If you are previewing this page locally, serve the folder over HTTP
-                        (<code class="font-mono text-slate-300">python -m http.server</code>) instead of opening the file directly.
+                        (<code class="font-mono text-paper-200">python -m http.server</code>) instead of
+                        opening the file directly.
                     </p>
                 </div>`;
         });
