@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" id="metaDescription" content="Security research write-up by Dakshitha Perera." />
+    <link rel="icon" type="image/png" href="../assets/images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="../assets/images/site.webmanifest" />
+    <title>Write-up | Dakshitha Perera</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
+                        sans: ["ui-sans-serif","system-ui","Segoe UI","Roboto","Helvetica","Arial"]
+                    },
+                    colors: {
+                        ink: { 950:"#070A0F", 900:"#0B1020", 800:"#0F172A" },
+                        neon: { 400:"#22c55e", 300:"#34d399", 200:"#5eead4" }
+                    },
+                    boxShadow: {
+                        glow:"0 0 0 1px rgba(34,197,94,.25), 0 0 28px rgba(34,197,94,.15)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="../styles.css" />
+
+    <!-- Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/powershell.min.js"></script>
+</head>
+
+<body class="bg-ink-950 text-slate-100">
+<div class="relative min-h-screen grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+
+    <!-- Reading progress -->
+    <div id="progressBar" class="fixed left-0 top-0 z-50 h-0.5 w-0 bg-neon-300/80"></div>
+
+    <!-- NAV -->
+    <header class="relative z-10">
+        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+            <a href="../index.html" class="font-mono tracking-tight text-lg">
+                <span class="text-neon-300">~/</span>dakshitha
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
+                <a class="hover:text-neon-200" href="../experience.html">Experience</a>
+                <a class="hover:text-neon-200" href="../research.html">Research</a>
+                <a class="hover:text-neon-200" href="../skills.html">Skills</a>
+                <a class="text-neon-200" href="../writeups.html">Write-ups</a>
+
+                <button type="button"
+                        onclick="window.location.href='../contact.html'"
+                        class="rounded-lg border border-slate-700/70 px-3 py-1.5
+               hover:border-neon-300/60 hover:text-neon-200">
+                    Contact
+                </button>
+            </div>
+
+            <button id="menuBtn"
+                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
+                    type="button">
+                Menu
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
+            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
+                <div class="flex flex-col gap-3">
+                    <a class="hover:text-neon-200" href="../experience.html">Experience</a>
+                    <a class="hover:text-neon-200" href="../research.html">Research</a>
+                    <a class="hover:text-neon-200" href="../skills.html">Skills</a>
+                    <a class="text-neon-200" href="../writeups.html">Write-ups</a>
+                    <button type="button"
+                            onclick="window.location.href='../contact.html'"
+                            class="rounded-lg border border-slate-700/70 px-3 py-1.5
+               hover:border-neon-300/60 hover:text-neon-200">
+                        Contact
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="relative z-10 mx-auto max-w-6xl px-4 pb-16">
+
+        <a href="../writeups.html" class="font-mono text-sm text-slate-400 hover:text-neon-200">← all write-ups</a>
+
+        <div class="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10 lg:items-start">
+
+            <!-- Article -->
+            <article class="rounded-2xl border border-slate-800 bg-ink-900/40 p-6 md:p-10 shadow-glow">
+
+                <!-- Header -->
+                <div id="articleHeader">
+                    <p class="font-mono text-sm text-slate-500">loading…</p>
+                </div>
+
+                <!-- Body -->
+                <div id="articleBody" class="wu-prose mt-8"></div>
+
+                <!-- Footer -->
+                <div id="articleFooter" class="mt-12 hidden border-t border-slate-800 pt-6">
+                    <p class="text-xs leading-relaxed text-slate-500">
+                        Published for educational purposes. Testing was limited to artifacts and environments the
+                        author was authorized to examine, and all identifying details, credentials, and third-party
+                        data have been removed. Nothing here is an assessment of any current product release.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-3 font-mono text-sm">
+                        <a href="../writeups.html"
+                           class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                            ← All write-ups
+                        </a>
+                        <a href="../contact.html"
+                           class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                            Get in touch
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- TOC -->
+            <aside class="mt-8 lg:mt-0 lg:sticky lg:top-8">
+                <nav id="toc" class="hidden rounded-2xl border border-slate-800 bg-ink-950/60 p-5">
+                    <p class="font-mono text-xs uppercase tracking-widest text-slate-500">Contents</p>
+                    <ul id="tocList" class="mt-3 space-y-2 text-sm"></ul>
+                </nav>
+            </aside>
+        </div>
+
+        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
+            <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
+        </footer>
+    </main>
+</div>
+
+<script src="../app.js"></script>
+<script>
+(() => {
+    const headerEl = document.getElementById("articleHeader");
+    const bodyEl   = document.getElementById("articleBody");
+    const footerEl = document.getElementById("articleFooter");
+    const tocEl    = document.getElementById("toc");
+    const tocList  = document.getElementById("tocList");
+
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[c]);
+
+    const fmtDate = (iso) => {
+        const d = new Date(iso + "T00:00:00Z");
+        if (isNaN(d)) return iso;
+        return d.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric", timeZone: "UTC" });
+    };
+
+    function fail(msg, detail) {
+        headerEl.innerHTML = `<h1 class="font-mono text-2xl">${esc(msg)}</h1>
+            <p class="mt-3 text-slate-400 text-sm">${detail || ""}</p>
+            <p class="mt-5 font-mono text-sm">
+                <a class="text-neon-300 hover:text-neon-200" href="../writeups.html">← Back to all write-ups</a>
+            </p>`;
+    }
+
+    const slug = new URLSearchParams(location.search).get("p");
+    if (!slug) {
+        fail("No write-up selected", "Pick one from the index.");
+        return;
+    }
+
+    fetch("index.json", { cache: "no-cache" })
+        .then(r => { if (!r.ok) throw new Error("index"); return r.json(); })
+        .then(posts => {
+            // Only fetch slugs that appear in the manifest.
+            const meta = (Array.isArray(posts) ? posts : []).find(p => p && p.slug === slug);
+            if (!meta) throw new Error("unknown");
+            return fetch(`${encodeURIComponent(meta.slug)}/index.md`, { cache: "no-cache" })
+                .then(r => { if (!r.ok) throw new Error("md"); return r.text(); })
+                .then(md => ({ meta, md }));
+        })
+        .then(({ meta, md }) => renderArticle(meta, md))
+        .catch(err => {
+            if (err.message === "unknown") {
+                fail("Write-up not found", "That write-up does not exist in the index.");
+            } else {
+                fail("Could not load this write-up",
+                    'If you are previewing locally, serve the folder over HTTP (<code class="font-mono">python -m http.server</code>) rather than opening the file directly.');
+            }
+        });
+
+    function renderArticle(meta, md) {
+        // Metadata lives in index.json; strip any YAML front matter left in the source.
+        md = md.replace(/^﻿/, "").replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
+
+        document.title = `${meta.title} | Dakshitha Perera`;
+        document.getElementById("metaDescription")
+            .setAttribute("content", meta.description || "Security research write-up by Dakshitha Perera.");
+
+        const tags = (meta.tags || []).map(t =>
+            `<span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-0.5 text-[11px] text-slate-400">#${esc(t)}</span>`
+        ).join("");
+
+        headerEl.innerHTML = `
+            <div class="flex flex-wrap items-center gap-3 font-mono text-xs text-slate-500">
+                <time datetime="${esc(meta.date)}">${esc(fmtDate(meta.date))}</time>
+                ${meta.category ? `<span class="text-slate-700">/</span><span class="text-neon-300">${esc(meta.category)}</span>` : ""}
+                ${meta.readingTime ? `<span class="text-slate-700">/</span><span>${esc(meta.readingTime)} read</span>` : ""}
+            </div>
+            <h1 class="mt-4 font-mono text-2xl md:text-4xl leading-tight">${esc(meta.title)}</h1>
+            ${meta.description ? `<p class="mt-4 max-w-3xl text-slate-400">${esc(meta.description)}</p>` : ""}
+            <div class="mt-5 flex flex-wrap gap-2 font-mono">${tags}</div>`;
+
+        marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
+        bodyEl.innerHTML = DOMPurify.sanitize(marked.parse(md));
+
+        const base = meta.slug + "/";
+
+        // Relative asset paths in the Markdown resolve against the write-up folder.
+        bodyEl.querySelectorAll("img").forEach(img => {
+            const src = img.getAttribute("src") || "";
+            if (src && !/^[a-z][a-z0-9+.-]*:/i.test(src) && !src.startsWith("/") && !src.startsWith("../")) {
+                img.setAttribute("src", base + src);
+            }
+            img.setAttribute("loading", "lazy");
+            img.setAttribute("decoding", "async");
+
+            // Wrap in a figure and use the alt text as a caption.
+            const alt = img.getAttribute("alt");
+            const parent = img.parentElement;
+            const fig = document.createElement("figure");
+            const link = document.createElement("a");
+            link.href = img.getAttribute("src");
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            (parent && parent.tagName === "P" && parent.childNodes.length === 1 ? parent : img)
+                .replaceWith(fig);
+            link.appendChild(img);
+            fig.appendChild(link);
+            if (alt) {
+                const cap = document.createElement("figcaption");
+                cap.textContent = alt;
+                fig.appendChild(cap);
+            }
+        });
+
+        // External links open in a new tab.
+        bodyEl.querySelectorAll("a[href]").forEach(a => {
+            if (/^https?:/i.test(a.getAttribute("href"))) {
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+            }
+        });
+
+        // Wide tables scroll instead of stretching the page.
+        bodyEl.querySelectorAll("table").forEach(t => {
+            const wrap = document.createElement("div");
+            wrap.className = "wu-table-wrap";
+            t.replaceWith(wrap);
+            wrap.appendChild(t);
+        });
+
+        if (window.hljs) {
+            bodyEl.querySelectorAll("pre code").forEach(block => {
+                try { hljs.highlightElement(block); } catch (e) { /* unknown language */ }
+            });
+        }
+        addCopyButtons();
+        buildToc();
+        footerEl.classList.remove("hidden");
+    }
+
+    function addCopyButtons() {
+        bodyEl.querySelectorAll("pre").forEach(pre => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "wu-copy";
+            btn.textContent = "copy";
+            btn.addEventListener("click", async () => {
+                const code = pre.querySelector("code");
+                try {
+                    await navigator.clipboard.writeText(code ? code.innerText : pre.innerText);
+                    btn.textContent = "copied";
+                } catch {
+                    btn.textContent = "failed";
+                }
+                setTimeout(() => (btn.textContent = "copy"), 1500);
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    function buildToc() {
+        const slugify = (s) => s.toLowerCase().trim()
+            .replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
+
+        const heads = [...bodyEl.querySelectorAll("h2, h3")];
+        if (heads.length < 3) return;
+
+        const used = new Set();
+        const items = heads.map(h => {
+            let id = slugify(h.textContent) || "section";
+            let n = 2;
+            while (used.has(id)) id = `${slugify(h.textContent)}-${n++}`;
+            used.add(id);
+            h.id = id;
+
+            const anchor = document.createElement("a");
+            anchor.href = "#" + id;
+            anchor.className = "wu-anchor";
+            anchor.setAttribute("aria-label", "Link to this section");
+            anchor.textContent = "#";
+            h.appendChild(anchor);
+
+            return `<li class="${h.tagName === "H3" ? "pl-3" : ""}">
+                <a href="#${id}" data-toc="${id}"
+                   class="block text-slate-400 hover:text-neon-200 transition ${h.tagName === "H3" ? "text-[13px]" : ""}">
+                   ${esc(h.textContent.replace(/#$/, ""))}
+                </a></li>`;
+        });
+
+        tocList.innerHTML = items.join("");
+        tocEl.classList.remove("hidden");
+
+        // Highlight the section currently in view.
+        const links = new Map([...tocList.querySelectorAll("a[data-toc]")].map(a => [a.dataset.toc, a]));
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                const a = links.get(e.target.id);
+                if (!a) return;
+                if (e.isIntersecting) {
+                    links.forEach(l => l.classList.remove("text-neon-200"));
+                    a.classList.add("text-neon-200");
+                }
+            });
+        }, { rootMargin: "-10% 0px -75% 0px" });
+        heads.forEach(h => observer.observe(h));
+    }
+
+    // Reading progress bar
+    const bar = document.getElementById("progressBar");
+    const onScroll = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = max > 0 ? `${Math.min(100, (window.scrollY / max) * 100)}%` : "0%";
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+})();
+</script>
+</body>
+</html>

@@ -90,3 +90,238 @@
 .typewriter{
     border-right: 2px solid currentColor;
 }
+
+/* ==========================================================================
+   Write-up article typography (.wu-prose)
+   Rendered Markdown lives inside #articleBody on writeups/article.html
+   ========================================================================== */
+
+.wu-prose{
+    color: #cbd5e1;                       /* slate-300 */
+    font-size: 1rem;
+    line-height: 1.75;
+    overflow-wrap: break-word;
+}
+
+.wu-prose > *:first-child{ margin-top: 0; }
+
+/* Headings */
+.wu-prose h2,
+.wu-prose h3,
+.wu-prose h4{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+    color: #f1f5f9;                       /* slate-100 */
+    scroll-margin-top: 2rem;
+    line-height: 1.3;
+}
+
+.wu-prose h2{
+    margin: 3rem 0 1rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid #1e293b;        /* slate-800 */
+    font-size: 1.5rem;
+}
+
+.wu-prose h3{
+    margin: 2.25rem 0 .75rem;
+    font-size: 1.15rem;
+    color: #5eead4;                       /* neon-200 */
+}
+
+.wu-prose h4{
+    margin: 1.75rem 0 .5rem;
+    font-size: 1rem;
+    color: #94a3b8;                       /* slate-400 */
+}
+
+/* Section anchor links */
+.wu-prose .wu-anchor{
+    margin-left: .5rem;
+    color: #334155;
+    text-decoration: none;
+    font-weight: 400;
+    opacity: 0;
+    transition: opacity .15s ease, color .15s ease;
+}
+.wu-prose h2:hover .wu-anchor,
+.wu-prose h3:hover .wu-anchor,
+.wu-prose .wu-anchor:focus-visible{ opacity: 1; color: #34d399; }
+
+/* Text */
+.wu-prose p{ margin: 1.15rem 0; }
+.wu-prose strong{ color: #e2e8f0; font-weight: 600; }
+.wu-prose em{ color: #cbd5e1; }
+.wu-prose hr{ margin: 2.5rem 0; border: 0; border-top: 1px solid #1e293b; }
+
+.wu-prose a{
+    color: #34d399;                       /* neon-300 */
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(52, 211, 153, .4);
+}
+.wu-prose a:hover{ color: #5eead4; text-decoration-color: currentColor; }
+
+/* Lists */
+.wu-prose ul,
+.wu-prose ol{ margin: 1.15rem 0; padding-left: 1.4rem; }
+.wu-prose ul{ list-style: disc; }
+.wu-prose ol{ list-style: decimal; }
+.wu-prose li{ margin: .5rem 0; }
+.wu-prose li::marker{ color: #22c55e; }
+.wu-prose li > ul,
+.wu-prose li > ol{ margin: .5rem 0; }
+
+/* Blockquote — used for the scope / authorization notice */
+.wu-prose blockquote{
+    margin: 1.75rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid rgba(34, 197, 94, .5);
+    border-radius: 0 .75rem .75rem 0;
+    background: rgba(34, 197, 94, .05);
+    color: #94a3b8;
+    font-size: .925rem;
+}
+.wu-prose blockquote p{ margin: .5rem 0; }
+.wu-prose blockquote > p:first-child{ margin-top: 0; }
+.wu-prose blockquote > p:last-child{ margin-bottom: 0; }
+
+/* Inline code */
+.wu-prose code{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+    font-size: .875em;
+    color: #5eead4;
+    background: rgba(15, 23, 42, .8);
+    border: 1px solid #1e293b;
+    border-radius: .3rem;
+    padding: .12em .38em;
+}
+
+/* Code blocks */
+.wu-prose pre{
+    position: relative;
+    margin: 1.5rem 0;
+    padding: 1.1rem 1.15rem;
+    background: #070A0F;
+    border: 1px solid #1e293b;
+    border-radius: .85rem;
+    overflow-x: auto;
+    font-size: .875rem;
+    line-height: 1.65;
+    tab-size: 4;
+}
+.wu-prose pre code{
+    display: block;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    color: #cbd5e1;
+    font-size: inherit;
+}
+
+/* Copy button on code blocks */
+.wu-copy{
+    position: absolute;
+    top: .55rem;
+    right: .55rem;
+    padding: .2rem .55rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: .7rem;
+    color: #64748b;
+    background: rgba(11, 16, 32, .9);
+    border: 1px solid #1e293b;
+    border-radius: .4rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .15s ease, color .15s ease, border-color .15s ease;
+}
+.wu-prose pre:hover .wu-copy,
+.wu-copy:focus-visible{ opacity: 1; }
+.wu-copy:hover{ color: #5eead4; border-color: rgba(52, 211, 153, .5); }
+
+@media (hover: none){
+    .wu-copy{ opacity: 1; }
+}
+
+/* Tables */
+.wu-table-wrap{
+    margin: 1.75rem 0;
+    overflow-x: auto;
+    border: 1px solid #1e293b;
+    border-radius: .85rem;
+}
+.wu-prose table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .875rem;
+}
+.wu-prose thead th{
+    position: sticky;
+    top: 0;
+    background: #0B1020;
+    color: #5eead4;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+}
+.wu-prose th,
+.wu-prose td{
+    padding: .7rem .9rem;
+    border-bottom: 1px solid #1e293b;
+    vertical-align: top;
+}
+.wu-prose tbody tr:last-child td{ border-bottom: 0; }
+.wu-prose tbody tr:hover{ background: rgba(34, 197, 94, .035); }
+
+/* Figures */
+.wu-prose figure{ margin: 2rem 0; }
+.wu-prose figure img{
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #1e293b;
+    border-radius: .85rem;
+    background: #070A0F;
+}
+.wu-prose figure a{ text-decoration: none; }
+.wu-prose figcaption{
+    margin-top: .65rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: .75rem;
+    color: #64748b;
+    text-align: center;
+}
+
+/* highlight.js tokens, matched to the site palette */
+.hljs-comment,
+.hljs-quote{ color: #475569; font-style: italic; }
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag{ color: #34d399; }
+.hljs-string,
+.hljs-regexp,
+.hljs-addition{ color: #5eead4; }
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet{ color: #fbbf24; }
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_,
+.hljs-section,
+.hljs-name{ color: #93c5fd; }
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable{ color: #e2e8f0; }
+.hljs-type,
+.hljs-built_in,
+.hljs-class .hljs-title{ color: #a5b4fc; }
+.hljs-meta,
+.hljs-meta .hljs-keyword{ color: #64748b; }
+.hljs-deletion{ color: #f87171; }
+.hljs-emphasis{ font-style: italic; }
+.hljs-strong{ font-weight: 600; }

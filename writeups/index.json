@@ -1,0 +1,12 @@
+[
+  {
+    "slug": "android-epassbook-reverse-engineering",
+    "title": "Reverse Engineering an Android ePassbook App (v1.4.4)",
+    "description": "A privacy-preserving walkthrough of APK triage, decompilation, data-flow tracing, local-storage review, and cryptographic analysis.",
+    "date": "2026-08-13",
+    "category": "Mobile Security",
+    "tags": ["android", "reverse-engineering", "mobile-security", "jadx", "apktool"],
+    "readingTime": "12 min",
+    "featured": true
+  }
+]
