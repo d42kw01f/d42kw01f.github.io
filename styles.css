@@ -286,6 +286,10 @@
     border-radius: .85rem;
     background: #05070A;
 }
+.wu-prose figure img[src$="00-emulator-detected.png"]{
+    width: min(100%, 20rem);
+    margin-inline: auto;
+}
 .wu-prose figure a{ text-decoration: none; }
 .wu-prose figcaption{
     margin-top: .65rem;

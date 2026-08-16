@@ -1,206 +1,170 @@
-> This article examines a historical Android release in a controlled lab. The institution, package identifier, domains, API paths, credentials, certificate identity, account information, and customer data are intentionally omitted or replaced. Testing was limited to an APK I lawfully obtained, a researcher-controlled device, and my own test data. This is not an assessment of the current release.
+> This an old story of mine, that is about an Android release from one of the most famous banks in Sri Lanka that I studied in my own lab. I have removed the bank's name, package name, servers, API paths, credentials, certificate details, and all personal data. I used only my own test environment and test data. This is **not** a review of the current version of the app.
 
-Mobile applications are useful reverse-engineering targets because the package contains both executable logic and a surprisingly rich map of the product: its manifest, resources, database models, network interfaces, and cryptographic choices. In this project I analyzed version 1.4.4 of an Android ePassbook application and followed several security-relevant values from their source to their eventual use.
+## Background
 
-The most interesting lesson was not that one search command found a secret. It was that a reliable finding needs an evidence chain. A suspicious constant only becomes meaningful after answering four questions:
+I’m a big believer in open-source software, and I’m careful about installing closed-source apps on my phone. That is why I replaced the stock operating system on my Pixel with GrapheneOS. I love it. 
 
-1. Where did the value originate?
-2. Is it reachable in the reviewed build?
-3. What data or security boundary does it affect?
-4. What uncertainty remains without server-side visibility?
+But, that decision came with a price: none of my bank’s apps would run.
 
-This write-up presents that process without publishing a turnkey exploit path.
+I called them, I emailed them. But, they didn't response to me at all. So, naturally, I decided to take matters into my own hands. 😤
 
-## Scope and ground rules
+My goal was to understand how the app worked under the hood, map how it communicated with its backend, and explore whether I could build a safe, much better integration for my own use.
 
-The target was an archived APK identified as versionName `1.4.4` and versionCode `68`. I recorded the full SHA-256 digest privately; the abbreviated public fingerprint is:
+During the process, I thought, “Why not perform a security analysis of the application while I’m at it?”
 
-```text
-F8206F41BC99...C5CFD8D
-```
+Let's dive in.
 
-The full hash is worth recording before analysis. It makes the work reproducible and prevents conclusions from being silently attributed to a different build. I abbreviated it here because a complete digest can also act as an indirect product identifier.
+## Approach
 
-![Sanitized terminal capture showing version and hash](assets/01-artifact-identity.png)
+First, I downloaded and installed the app in my lab environment.
 
-The review covered static package inspection, decompilation, data-flow tracing, a local database review with synthetic records, and limited runtime observation on a researcher-controlled Android environment. It did not cover source repositories, production infrastructure, gateway configuration, or authorization logic on the server.
+![The application refusing to run after detecting my Android emulator](assets/00-emulator-detected.png)
 
-I also adopted a publication rule: evidence can be precise without exposing operational secrets. In screenshots and snippets I renamed classes, removed institution-specific strings, replaced credentials with `[REDACTED]`, and omitted service locations.
+Of course, it immediately detected the emulator and refused to continue.
 
-### Results at a glance
-
-| Observation | Evidence in v1.4.4 | Main security boundary | Primary remediation |
-|---|---|---|---|
-| Permissive TLS validation | Confirmed in four first-party client constructors | Server authentication | Restore platform certificate and hostname validation |
-| Embedded Basic credentials | Confirmed constants and call sites | API client authentication | Rotate values; replace shared secrets with per-user, short-lived authorization |
-| Fixed-key local AES | Confirmed DAO-to-helper data flow | Data at rest | Minimize stored data; use per-install Keystore keys and authenticated encryption |
-| Sensitive logging | Confirmed code; runtime exposure varies by flow | Data handling and diagnostics | Remove sensitive values and enforce release-safe logging |
-| Legacy DES/RSA envelope | Confirmed design and reachable request helpers | Application-layer payload protection | Reassess need; modernize and add explicit lifecycle and replay controls |
-
-These labels describe evidence in the archived client. They are not claims about present-day server behavior or the current application.
-
-## Tooling
-
-My core toolkit was deliberately small:
-
-- `apktool` for decoded resources and the manifest
-- `jadx` for readable Java-like decompilation and cross-references
-- `aapt` or `apkanalyzer` for package metadata
-- `ripgrep` for fast, repeatable searches across decompiled code
-- `openssl` for inspecting the bundled public certificate without contacting a server
-- `adb`, `logcat`, and `sqlite3` for controlled local verification
-
-The following examples use placeholders. Do not substitute a third party's infrastructure or data; use an APK and test environment you are authorized to examine.
-
-```bash
-# Establish the identity of the exact artifact.
-sha256sum historical-release.apk
-
-# Read metadata without installing the application.
-aapt dump badging historical-release.apk | grep -E "package:|versionCode|versionName"
-
-# Decode resources and produce readable decompiled sources.
-apktool d -f historical-release.apk -o decoded
-jadx -d decompiled historical-release.apk
-
-# Create a first-pass inventory of security-relevant constructs.
-rg -n -S \
-  'HostnameVerifier|X509TrustManager|checkServerTrusted|Cipher\.getInstance|SecretKeySpec|Authorization|Log\.[dievw]' \
-  decompiled/sources
-```
-
-On PowerShell, the artifact check is simply:
+Before touching the APK, I recorded its version and hash. This sounds boring, but it prevents a common mistake: analyzing one file and later writing about another.
 
 ```powershell
-Get-FileHash .\historical-release.apk -Algorithm SHA256
+Get-FileHash .\base.apk -Algorithm SHA256
 Select-String -Path .\decoded\AndroidManifest.xml -Pattern 'versionName|versionCode'
 ```
 
-The first search is triage, not proof. Library code can contain the same words, decompilers can misrepresent control flow, and a class can be dead code. I therefore restricted later searches to the application's own namespace and used call sites to establish reachability.
+I kept the full hash in my private notes. The screenshot below shows only part of it because a complete APK hash can sometimes be used to identify the original application.
 
-## 1. Mapping the application before chasing findings
+![The archived APK was version 1.4.4, versionCode 68; its hash is shortened for privacy](assets/01-artifact-identity.png)
 
-I started with the manifest and top-level package tree. This answered basic questions: which components are exported, which permissions are requested, which application classes initialize networking, and where Room/database entities live.
+At this point, I had no finding. I only had a clearly identified target and a question: **what is this app doing behind the screens I can see?**
 
-Then I grouped the first-party code into four rough areas:
+### Opening the app without its source code
+
+I used two tools to unpack it:
+
+```bash
+apktool d -f base.apk -o decoded
+jadx -d decompiled base.apk
+```
+
+`apktool` gave me the manifest and Android resources. `jadx` turned the DEX bytecode into Java-like code that was much easier to browse.
+
+The result was a huge directory containing app code, Android support code, and many third-party libraries. Searching everything at once produced a lot of noise, so I first found the app's own namespace and focused on that.
+
+I roughly mapped it like this:
 
 ```text
 application/
-|-- data/dao/               local persistence
-|-- network/remote/         service construction and API calls
-|-- network/security/       request encryption helpers
-`-- ui/                     user flows and presentation
+|-- data/dao/          local database code
+|-- network/remote/    API clients
+|-- network/security/  encryption helpers
+`-- ui/                screens and user flows
 ```
 
-This map made later cross-references much faster. For example, finding `Cipher.getInstance("AES")` is only the beginning; locating its callers in a DAO showed that it protected locally stored card data rather than a transport payload.
+That small map helped a lot. Instead of wandering through thousands of files, I could follow a piece of data from a screen, into a service or database helper, and back again.
 
-## 2. Finding: permissive TLS validation in custom clients
+For the first pass, I searched for a few security-related words:
 
-Four first-party service constructors created custom TLS contexts. Each supplied an `X509TrustManager` whose server-validation method did not validate the certificate chain, then installed a `HostnameVerifier` that always returned `true`.
+```bash
+rg -n -S \
+  'HostnameVerifier|X509TrustManager|Cipher\.getInstance|SecretKeySpec|Authorization|Log\.' \
+  decompiled/sources
+```
 
-The relevant structure, renamed and simplified for publication, looked like this:
+This command did not prove anything. It only gave me places to investigate.
+
+## Findings
+### TLS checks that always passed
+
+As the first strange that I found: One search result led me into the network-client code. There I found a custom certificate trust manager. Its `checkServerTrusted` method was empty.
+
+Then, a few lines later, I found a hostname verifier that simply returned `true`.
 
 ```java
-TrustManager[] managers = new TrustManager[] {
-    new X509TrustManager() {
-        public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            // no chain validation
-        }
-    }
-};
+public void checkServerTrusted(X509Certificate[] chain, String authType) {
+    // nothing happens here
+}
 
-SSLContext context = SSLContext.getInstance("SSL");
-context.init(null, managers, new SecureRandom());
-
-client.sslSocketFactory(context.getSocketFactory(), (X509TrustManager) managers[0]);
 client.hostnameVerifier((host, session) -> true);
 ```
 
-![Sanitized code evidence for permissive TLS validation](assets/02-tls-validation.png)
+![A simplified and anonymized version of the custom TLS client found in the APK](assets/02-tls-validation.png)
 
-### Why both checks matter
+This was the moment the project became more than code browsing.
 
-TLS authenticates a service through two related checks. Chain validation asks whether the certificate leads to a trusted issuer and remains otherwise valid. Hostname verification asks whether that valid certificate belongs to the hostname being contacted. Disabling either check weakens authentication; disabling both can allow an attacker who controls the network path to impersonate the remote service for affected clients.
+Normally, HTTPS checks two important things: whether the certificate can be trusted, and whether it belongs to the server the app wanted to reach. Here, the custom code weakened both checks.
 
-I did not publish endpoint mappings or interception instructions. They are unnecessary to explain the defect and would make the article more operational than educational.
+I found the same pattern in four of the app's own service clients. I then followed where those clients were created and confirmed that they were connected to real app flows. That step mattered because decompiled applications often contain unused code and library code. A scary-looking function is not automatically a real finding.
 
-### How I verified reachability
+I did not include server names, endpoints, or instructions for intercepting the traffic. They are not needed to explain the lesson: **custom TLS code is dangerous when it quietly turns verification off.**
 
-I searched for construction of each service singleton, followed the returned API interface into registration, account, notification, and statement flows, and confirmed that the customized client was passed into the HTTP stack. This step separated first-party vulnerable construction from harmless references inside networking libraries.
+### Then I found credentials inside the client
 
-### Remediation
+While following the service calls, I noticed several strings beginning with `Basic`.
 
-The safest fix is to remove the custom trust manager and hostname verifier, allowing the platform/HTTP library defaults to perform validation. If certificate pinning is required as defense in depth, it should be centralized, scoped to controlled domains, and designed with backup pins and rotation in mind. Automated negative tests should reject a self-signed chain, an expired certificate, and a valid certificate for the wrong host.
+They were HTTP Basic Authorization values. Some were labelled for different environments, and a production-labelled value was passed into several API calls.
 
-## 3. Finding: reusable Basic credentials embedded in the APK
-
-The decompiled service layer contained several environment-labelled Basic Authorization constants. Call-site tracing showed that production-labelled material was supplied to multiple API interface methods, while another shared value was used for a notification-registration flow.
+The real values are removed here:
 
 ```java
-private static final String CLIENT_AUTH_PROD = "Basic [REDACTED]";
-private static final String CLIENT_AUTH_PUSH = "Basic [REDACTED]";
+private static final String CLIENT_AUTH = "Basic [REDACTED]";
 
-api.register(CLIENT_AUTH_PROD, request);
-api.registerNotification(CLIENT_AUTH_PUSH, request);
+api.register(CLIENT_AUTH, request);
 ```
 
-An APK runs on an untrusted device and can be copied and inspected. A credential distributed inside it must therefore be treated as recoverable, even when the code is obfuscated or the value is Base64-encoded. Base64 changes representation; it does not provide secrecy.
+This taught me a simple but important rule: **if a secret is shipped inside an APK, it is no longer a secret.**
 
-The client-side evidence alone does not establish what an unauthenticated caller could do with the values. That depends on server-side authorization, per-user authentication, freshness controls, rate limiting, and endpoint behavior. The defensible conclusion is narrower: the values cannot safely serve as confidential, application-wide authorization factors.
+Base64 does not change that. Obfuscation does not change it either. Both may make a value less obvious, but the phone still needs to recover and use it.
 
-Recommended remediation is to rotate the exposed values, review their use in server logs, and avoid shared mobile-client secrets as an authorization boundary. Sensitive operations should rely on short-lived per-user credentials and server-side authorization.
+I could prove that the credentials existed and were used by the app. I could not prove, from client code alone, what the server would allow someone to do with them. That depends on server-side authentication and authorization, which were outside my view. So I kept the claim narrow instead of turning it into a bigger story than the evidence supported.
 
-## 4. Finding: fixed-key encryption for local card records
+### Following card data into the local database
 
-The local card DAO called a helper before inserting or updating card records. That helper used a fixed 16-byte AES key embedded in the APK and requested the cipher using only the algorithm name:
+My next question was about storage. What did the app keep on the device, and how was it protected?
+
+The local database code passed card numbers through an AES helper before saving them. At first, that sounded good. Then I opened the helper.
 
 ```java
 private static final byte[] KEY = { /* REDACTED */ };
 
 SecretKeySpec key = new SecretKeySpec(KEY, "AES");
 Cipher cipher = Cipher.getInstance("AES");
-cipher.init(Cipher.ENCRYPT_MODE, key);
 ```
 
-![Sanitized data-flow and fixed-key AES evidence](assets/03-local-storage.png)
+The AES key was a fixed byte array inside the APK. The same public APK that contained the encrypted database logic also contained the material needed to reproduce the encryption.
 
-On common Android/Java providers, the transformation `AES` resolves to an ECB-compatible default. More importantly, the same recoverable key is shared by every installation of the APK. Anyone who obtains both a local database and the public application package has the ingredients needed to reproduce the transformation offline.
+![Card data flowed through an AES helper containing a fixed embedded key](assets/03-local-storage.png)
 
-I verified the data flow in both directions:
+There was another detail: the code requested only `AES`, without naming a mode or padding. On common Android and Java providers, that falls back to an ECB-style default. It is better to request the complete transformation explicitly, but the bigger problem here was the shared, recoverable key.
+
+I traced both directions:
 
 ```text
-card number -> DAO encrypt helper -> database record
-database record -> DAO decrypt helper -> application model
+card value -> encrypt helper -> database
+database -> decrypt helper -> card model
 ```
 
-For the lab check, I worked only on a copied database containing my own synthetic data. A safe schema-first workflow is:
+For verification, I used a copied database and my own synthetic records. I started with the schema rather than dumping every row:
 
 ```bash
-# Work on a copy. Do not publish the database.
 cp passbook_database passbook_database.lab-copy
-
-# Inspect structure before selecting any rows.
 sqlite3 passbook_database.lab-copy '.tables'
-sqlite3 passbook_database.lab-copy '.schema <REDACTED_TABLE>'
 ```
 
-The publication does not include the database, the embedded key, a decryption utility, or recovered values.
+I am deliberately not publishing the database, the AES key, my decryption script, or any recovered value.
 
-The better design is to avoid storing full card numbers when a token or masked value is sufficient. If reversible local protection is genuinely required, use a per-install, non-exportable Android Keystore key and an authenticated mode such as AES-GCM with a fresh nonce per record. Migration and backup behavior need explicit design as well.
+The safer design would be to avoid storing a full card number if a masked value or token is enough. If the app truly needs reversible local encryption, a per-install key stored in Android Keystore and an authenticated mode such as AES-GCM would be a much stronger starting point.
 
-## 5. Finding: plaintext and decrypted values in release logging paths
+### The logs were telling their own story
 
-The DAO logged a decrypted card value after reading it, and service code logged request material and decrypted response content. One request-encryption helper also logged its output.
+While tracing the database code, I saw this kind of statement:
 
 ```java
 Log.d("APP", "decrypted: " + sensitiveValue);
-Log.d("APP", "request: " + requestJson);
-Log.d("APP", "response: " + decryptedPayload);
 ```
 
-Logging immediately before encryption or after decryption bypasses the protections provided by transport and storage encryption. Practical exposure varies by Android version, build configuration, device state, diagnostic tooling, and support processes, so I describe this as confirmed code with runtime impact dependent on the path.
+Similar logging appeared around request and response handling.
 
-For validation, I used synthetic values that were easy to recognize and filtered only the researcher-controlled process:
+This is easy to overlook because logging feels temporary. But once plaintext is written to a log, it has stepped outside the protection offered by database encryption or HTTPS.
+
+I tested this with obvious fake values on my own device so I could recognize them safely:
 
 ```bash
 adb logcat --clear
@@ -208,23 +172,26 @@ adb shell pidof com.example.redacted
 adb logcat --pid=<PID>
 ```
 
-No real card number, identifier, OTP, access code, token, or full log capture should appear in a public article. The correct engineering response is to remove sensitive concatenation, use structured allow-listed logging, suppress verbose output in release builds, and add a build-time scan for risky log statements.
+Whether every log line is visible depends on the Android version, build configuration, device state, and the exact app flow. The code was definitely present; the real-world exposure could vary. That distinction is important when writing a finding.
 
-## 6. Observation: legacy DES/RSA request envelope
+### One final rabbit hole: the custom encryption envelope
 
-The v1.4.4 security helper generated a one-time DES key, encrypted JSON payloads with a provider-default DES transformation, wrapped the symmetric key using `RSA/ECB/PKCS1Padding`, and loaded the RSA public key from an asset bundled with the APK. A plaintext hash was included alongside the encrypted payload.
+The app did not rely only on HTTPS. Before sending some JSON requests, it also built its own encrypted envelope.
 
-![Sanitized diagram of the legacy request envelope](assets/04-request-envelope.png)
+The process looked like this:
 
-The static evidence was sufficient to describe the design, but not to claim compromise of server-held private key material or universal exposure of all requests. The important design concerns are:
+1. Generate a one-time DES key.
+2. Encrypt the JSON payload with DES.
+3. Wrap the DES key with an RSA public key bundled in the APK.
+4. Send the encrypted message, wrapped key, and a hash together.
 
-- DES has a 56-bit effective key size and is obsolete.
-- ECB-style encryption does not hide repeated block patterns and is not authenticated.
-- PKCS#1 v1.5 encryption has weaker misuse resistance than modern RSA-OAEP-based designs.
-- A bundled public certificate is not itself a secret, but a long-lived envelope key creates lifecycle and historical-confidentiality questions for the corresponding server-side private key.
-- Application-layer encryption does not compensate for broken TLS authentication.
+![The older request format used DES for the payload and RSA PKCS1 v1.5 to wrap its key](assets/04-request-envelope.png)
 
-I inspected only non-identifying certificate properties. A publication-safe command is:
+This was interesting from a reverse-engineering point of view because I had to follow several helpers before the full design became visible.
+
+DES is now obsolete because of its small effective key size. The implementation also used old-style RSA PKCS#1 v1.5 encryption. More importantly, an extra encryption layer cannot repair HTTPS when the client has disabled the checks that authenticate the server.
+
+I inspected only non-identifying details of the bundled certificate:
 
 ```bash
 base64 -d decoded/assets/public_key.der.b64 > public_key.der
@@ -232,45 +199,6 @@ openssl x509 -inform DER -in public_key.der \
   -noout -dates -fingerprint -sha256
 ```
 
-Do not add `-subject` or `-issuer` to a public screenshot when those fields identify the institution or an employee.
+I intentionally left `-subject` and `-issuer` out of the screenshot because those fields identified the institution and an individual.
 
-Modern remediation should begin by restoring correct TLS and documenting whether a second application-layer envelope is still necessary. If it is retained, use a reviewed authenticated construction, modern key wrapping, explicit versioning, replay resistance, and a defined key-rotation process.
-
-## What did not become a finding
-
-Reverse engineering produces many suspicious-looking fragments. I excluded claims that I could not connect to reachable first-party code, findings that depended entirely on unknown server behavior, and observations from a newer application version. I also did not label emulator or root checks as vulnerabilities: they may slow analysis, but they are not authorization controls.
-
-This negative space matters. A credible portfolio piece is strengthened by saying what the evidence does *not* prove.
-
-## A repeatable workflow for Android reverse engineering
-
-The workflow I would reuse on another application is:
-
-1. Hash and identify the exact APK.
-2. Decode resources and decompile code with two complementary tools.
-3. Separate first-party namespaces from bundled libraries.
-4. Search for high-signal primitives, constants, and logging calls.
-5. Trace each candidate through callers and data models.
-6. Confirm behavior only in an authorized, controlled environment.
-7. Record evidence, uncertainty, impact, and remediation together.
-8. Sanitize screenshots and run a final secret/identity review before publishing.
-
-This project improved my ability to move from strings to semantics. The useful skill was not merely recognizing `return true` or `Cipher.getInstance("AES")`; it was proving where those constructs sat in the application and communicating their effect without overstating the available evidence.
-
-## Publication checklist
-
-Before this article goes live, I will verify that it contains none of the following:
-
-- institution or legal-entity names
-- real package identifiers, domains, paths, IP addresses, or email addresses
-- Basic credentials, tokens, API keys, cryptographic keys, or decoded secret values
-- certificate subject/issuer fields or personal names
-- account, card, NIC/national-ID, phone, device, OTP, or statement data
-- unredacted proxy captures, databases, logs, scripts, or bypass hooks
-- claims about the latest release or remediation status that I did not verify
-
-## Closing thoughts
-
-An APK should be assumed to be observable by its user. Obfuscation can increase analysis cost, but it cannot turn shared client credentials or embedded symmetric keys into durable secrets. Similarly, custom cryptography cannot repair a transport client that no longer authenticates its peer.
-
-For me, the main outcome of this exercise was a more disciplined reverse-engineering process: identify the artifact, map the code, trace the data, test only what is authorized, state uncertainty, and publish the minimum detail needed to teach the lesson.
+> This project started almost by accident, but it became one of my most valuable learning experiences. Along the way, I learned a lot about reverse engineering, sharpened my cryptography skills, and became much more confident navigating an unfamiliar application from the inside out. 😊

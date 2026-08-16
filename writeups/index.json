@@ -1,12 +1,12 @@
 [
   {
     "slug": "android-epassbook-reverse-engineering",
-    "title": "Reverse Engineering an Android ePassbook App (v1.4.4)",
-    "description": "A privacy-preserving walkthrough of APK triage, decompilation, data-flow tracing, local-storage review, and cryptographic analysis.",
+    "title": "What I Found Inside a Famous ePassbook Apps in Sri Lanka",
+    "description": "I opened an archived Android APK to practise reverse engineering. One small search led me through broken TLS checks, embedded credentials, local encryption, logs, and a legacy request format.",
     "date": "2026-08-13",
     "category": "Mobile Security",
     "tags": ["android", "reverse-engineering", "mobile-security", "jadx", "apktool"],
-    "readingTime": "12 min",
+    "readingTime": "10 min",
     "featured": true
   }
 ]
