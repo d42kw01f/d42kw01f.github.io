@@ -203,7 +203,7 @@
     position: relative;
     margin: 1.5rem 0;
     padding: 1.1rem 1.15rem;
-    background: #070A0F;
+    background: #05070A;
     border: 1px solid #1e293b;
     border-radius: .85rem;
     overflow-x: auto;
@@ -230,7 +230,7 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: .7rem;
     color: #64748b;
-    background: rgba(11, 16, 32, .9);
+    background: rgba(7, 10, 21, .9);
     border: 1px solid #1e293b;
     border-radius: .4rem;
     cursor: pointer;
@@ -260,7 +260,7 @@
 .wu-prose thead th{
     position: sticky;
     top: 0;
-    background: #0B1020;
+    background: #070A15;
     color: #c4b5fd;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-weight: 500;
@@ -284,7 +284,7 @@
     height: auto;
     border: 1px solid #1e293b;
     border-radius: .85rem;
-    background: #070A0F;
+    background: #05070A;
 }
 .wu-prose figure a{ text-decoration: none; }
 .wu-prose figcaption{
