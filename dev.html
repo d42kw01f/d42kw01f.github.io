@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Applications and practical tools created by Dakshitha Perera, with visual guides to what they do and how to use them." />
+    <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/images/site.webmanifest" />
+    <title>Dev | Dakshitha Perera</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
+                    },
+                    colors: {
+                        ink: { 950:"#05070A", 900:"#070A15", 800:"#0A0F1B" },
+                        neon: { 400:"#8b5cf6", 300:"#a78bfa", 200:"#c4b5fd" }
+                    },
+                    boxShadow: {
+                        glow:"0 0 0 1px rgba(139,92,246,.25), 0 0 28px rgba(139,92,246,.15)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-ink-950 text-slate-100">
+<div class="relative min-h-screen grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+
+    <header class="relative z-10">
+        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+            <a href="index.html" class="font-mono tracking-tight text-lg">
+                <span class="text-neon-300">~/</span>dakshitha
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
+                <a class="hover:text-neon-200" href="experience.html">Experience</a>
+                <a class="hover:text-neon-200" href="research.html">Research</a>
+                <a class="hover:text-neon-200" href="skills.html">Skills</a>
+                <a class="text-neon-200" href="dev.html" aria-current="page">Dev</a>
+                <a class="hover:text-neon-200" href="writeups.html">Write-ups</a>
+
+                <button type="button"
+                        onclick="window.location.href='contact.html'"
+                        class="rounded-lg border border-slate-700/70 px-3 py-1.5 hover:border-neon-300/60 hover:text-neon-200">
+                    Contact
+                </button>
+            </div>
+
+            <button id="menuBtn"
+                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
+                    type="button" aria-label="Open navigation menu">
+                Menu
+            </button>
+        </nav>
+
+        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
+            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
+                <div class="flex flex-col gap-3">
+                    <a class="hover:text-neon-200" href="experience.html">Experience</a>
+                    <a class="hover:text-neon-200" href="research.html">Research</a>
+                    <a class="hover:text-neon-200" href="skills.html">Skills</a>
+                    <a class="text-neon-200" href="dev.html" aria-current="page">Dev</a>
+                    <a class="hover:text-neon-200" href="writeups.html">Write-ups</a>
+                    <button type="button"
+                            onclick="window.location.href='contact.html'"
+                            class="rounded-lg border border-slate-700/70 px-3 py-1.5 hover:border-neon-300/60 hover:text-neon-200">
+                        Contact
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 mx-auto max-w-6xl px-4 pb-16">
+        <section class="relative overflow-hidden rounded-2xl border border-slate-800 bg-ink-900/40 p-7 md:p-10 shadow-glow scanline">
+            <p class="font-mono text-neon-300 text-sm">~/dev</p>
+            <h1 class="mt-3 font-mono text-3xl md:text-4xl">Development</h1>
+            <p class="mt-4 max-w-3xl text-slate-300 leading-relaxed">
+                Practical applications built around real problems. Each project page focuses on what the app does,
+                the workflow it supports, and how to use it.
+            </p>
+
+            <div class="mt-10">
+                <article class="group overflow-hidden rounded-2xl border border-slate-800 bg-ink-950/70 transition hover:border-neon-300/40">
+                    <div class="grid lg:grid-cols-[1.15fr_.85fr]">
+                        <div class="flex flex-col justify-center p-6 md:p-9">
+                            <div class="flex flex-wrap items-center gap-3 font-mono text-xs text-slate-500">
+                                <span class="text-neon-300">Android application</span>
+                                <span class="text-slate-700">/</span>
+                                <span>Cricket utility</span>
+                            </div>
+
+                            <h2 class="mt-4 font-mono text-2xl md:text-3xl leading-tight">
+                                <a class="hover:text-neon-200" href="dev/cricket-umpire.html">Umpire — Cricket Counter</a>
+                            </h2>
+
+                            <p class="mt-4 max-w-2xl text-slate-300 leading-relaxed">
+                                A focused innings counter for umpires and scorers. Track legal deliveries, overs,
+                                wickets, and extras from the screen or the phone's volume buttons, then review the
+                                completed innings over by over.
+                            </p>
+
+                            <div class="mt-5 flex flex-wrap gap-2 font-mono text-[11px] text-slate-400">
+                                <span class="rounded border border-slate-800 bg-ink-900/60 px-2 py-1">#offline</span>
+                                <span class="rounded border border-slate-800 bg-ink-900/60 px-2 py-1">#cricket</span>
+                                <span class="rounded border border-slate-800 bg-ink-900/60 px-2 py-1">#umpiring</span>
+                            </div>
+
+                            <div class="mt-7">
+                                <a href="dev/cricket-umpire.html"
+                                   class="inline-block rounded-lg border border-slate-700 px-4 py-2 font-mono text-sm hover:border-neon-300/60 hover:text-neon-200">
+                                    View app guide →
+                                </a>
+                            </div>
+                        </div>
+
+                        <a href="dev/cricket-umpire.html"
+                           class="relative min-h-80 overflow-hidden border-t border-slate-800 bg-gradient-to-br from-emerald-950/50 via-ink-950 to-violet-950/40 lg:border-l lg:border-t-0"
+                           aria-label="Open the Umpire cricket counter guide">
+                            <img src="dev/cricket-umpire/assets/counter.png"
+                                 alt="Umpire app counting an innings with legal balls, a wicket, and an extra"
+                                 class="absolute left-1/2 top-8 w-64 -translate-x-1/2 rounded-[1.5rem] border border-emerald-800/50 shadow-2xl transition duration-500 group-hover:-translate-y-2"
+                                 loading="lazy" />
+                            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-950 to-transparent"></div>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
+            <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
+        </footer>
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
