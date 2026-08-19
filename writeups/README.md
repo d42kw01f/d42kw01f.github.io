@@ -1,11 +1,11 @@
 # Write-ups
 
-Markdown-driven write-up section. No build step — the pages fetch and render the Markdown in the browser.
+Markdown-driven write-up section. No build step - the pages fetch and render the Markdown in the browser.
 
 ```
 writeups.html                     # listing page (tag filter, cards)
 writeups/
-  index.json                      # the manifest — this is the source of truth for metadata
+  index.json                      # the manifest - this is the source of truth for metadata
   article.html                    # renderer: /writeups/article.html?p=<slug>
   <slug>/
     index.md                      # the article body (no front matter, no H1)
@@ -40,7 +40,7 @@ writeups/
 
 ## Notes
 
-- **Metadata lives in `index.json`, not in the Markdown.** Don't add YAML front matter — if you
+- **Metadata lives in `index.json`, not in the Markdown.** Don't add YAML front matter - if you
   leave some in, the renderer strips it, but it won't be displayed. Don't start `index.md` with an
   H1 either; the page renders the title from the manifest.
 - Start headings at `##`. A table of contents is generated automatically from `##`/`###` once there
