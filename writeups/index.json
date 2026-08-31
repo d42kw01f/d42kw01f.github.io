@@ -1,8 +1,19 @@
 [
   {
+    "slug": "android-fare-estimation-trust-boundary",
+    "title": "How I Hacked PickMe Fare",
+    "description": "I followed two ordinary route metrics through PickMe's Android app, changed a controlled fare estimate, responsibly reported the issue, and watched it get fixed.",
+    "date": "2026-08-20",
+    "category": "Mobile Security",
+    "tags": ["android", "reverse-engineering", "mobile-security", "api-security", "jadx", "apktool"],
+    "readingTime": "13 min",
+    "draft": false,
+    "featured": true
+  },
+  {
     "slug": "android-epassbook-reverse-engineering",
     "title": "What I Found Inside a Famous ePassbook App in Sri Lanka",
-    "description": "I opened an Android ePassBook APK to understand what is going on under the hood, so I could set up my own ePassBook app on own wallet app. One small search led me through broken TLS checks, embedded credentials, local encryption, logs, and a legacy request format.",
+    "description": "I opened an archived Android APK to practise reverse engineering. One small search led me through broken TLS checks, embedded credentials, local encryption, logs, and a legacy request format.",
     "date": "2026-08-13",
     "category": "Mobile Security",
     "tags": ["android", "reverse-engineering", "mobile-security", "jadx", "apktool"],
