@@ -1,4 +1,5 @@
-> **Responsible disclosure update (20 August 2026):** I tested only with my own PickMe account and paid rides. I reported the issue privately before writing this article. PickMe has since informed me that the issue is fixed and gave me permission to publish the story.
+> **Responsible disclosure update (20 August 2026):** I tested only with my own PickMe account and paid rides. I reported the issue privately before writing this 
+>article. PickMe has since fixed this issue, I have decided to tell the story.
 
 ## Background
 
@@ -279,7 +280,7 @@ I also separated the claims into three levels:
 
 I sent the report privately and did not publish the live host, tokens, coordinates, pricing references, account details, driver details, or trip identifiers.
 
-PickMe investigated the report. On **20 August 2026**, PickMe informed me that the issue had been fixed and gave me permission to publish this write-up.
+PickMe investigated the report. On **20 August 2026**, PickMe updated their apps and fixed the issue.
 
 > So, to be absolutely clear: **the issue described in this article is fixed as of 20 August 2026.** I am not claiming to know the exact server-side implementation of the fix; that code is outside the Android application and was not part of my evidence. 
 >
