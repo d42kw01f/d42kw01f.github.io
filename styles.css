@@ -109,7 +109,7 @@
 .wu-prose h2,
 .wu-prose h3,
 .wu-prose h4{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
     color: #f1f5f9;                       /* slate-100 */
     scroll-margin-top: 2rem;
@@ -188,7 +188,7 @@
 
 /* Inline code */
 .wu-prose code{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
     font-size: .875em;
     color: #c4b5fd;
@@ -227,7 +227,7 @@
     top: .55rem;
     right: .55rem;
     padding: .2rem .55rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: .7rem;
     color: #64748b;
     background: rgba(7, 10, 21, .9);
@@ -262,7 +262,7 @@
     top: 0;
     background: #070A15;
     color: #c4b5fd;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-weight: 500;
     text-align: left;
     white-space: nowrap;
@@ -293,7 +293,7 @@
 .wu-prose figure a{ text-decoration: none; }
 .wu-prose figcaption{
     margin-top: .65rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: .75rem;
     color: #64748b;
     text-align: center;

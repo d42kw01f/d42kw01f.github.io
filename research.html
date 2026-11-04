@@ -18,7 +18,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        mono: ["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
+                        sans: ["IBM Plex Sans","ui-sans-serif","system-ui","-apple-system","Segoe UI","Roboto","Helvetica Neue","Arial","sans-serif"],
+                        mono: ["IBM Plex Mono","ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
                     },
                     colors: {
                         ink: { 950:"#05070A", 900:"#070A15", 800:"#0A0F1B" },
@@ -32,6 +33,9 @@
         }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -106,24 +110,22 @@
 
                 <!-- PROJECT 1 -->
                 <article class="rounded-2xl border border-slate-800 bg-ink-950/60 p-6">
-                    <h2 class="font-mono text-xl">Predict Election Outcomes via Social Media Analysis</h2>
-                    <p class="mt-2 text-sm text-neon-300">End-to-end AI system • NLP • Data Scraping • Visualization</p>
+                    <h2 class="font-mono text-xl">
+                        <a class="hover:text-neon-200" href="research/election-prediction.html">PoliticaLens: Predict Election Outcomes via Social Media Analysis</a>
+                    </h2>
+                    <p class="mt-2 text-sm text-neon-300">End-to-end AI system • NLP • Sentiment Analysis • Data Scraping • Visualization</p>
 
                     <ul class="mt-4 list-disc pl-5 text-slate-300 space-y-2">
-                        <li>Built an automated scraping pipeline using Puppeteer + TypeScript to collect large-scale Facebook post data.</li>
-                        <li>Developed NLP models in Python to classify political vs non-political content.</li>
-                        <li>Triggered secondary scraping for political posts to extract reactions, shares, comments, and engagement metrics.</li>
-                        <li>Designed a weight scoring algorithm to rank political influence using engagement and sentiment.</li>
-                        <li>Engineered a MongoDB schema (Post, FullPost, PoliticalPost) to manage processing stages.</li>
-                        <li>Created an interactive dashboard using Nuxt.js + Tailwind for trend visualization.</li>
-                        <li>Integrated everything through a Flask REST API for automation.</li>
+                        <li>Built automated Puppeteer + TypeScript scrapers to collect political content from Facebook, YouTube, Reddit, Twitter, and Sri Lankan online news sources.</li>
+                        <li>Trained a political content classifier (the_poli) to separate political from non-political posts before deeper analysis.</li>
+                        <li>Ran secondary scraping on political content to extract reactions, shares, comments, and comment-level engagement.</li>
+                        <li>Applied sentiment analysis (the_senti) and candidate identification (the_candi) to link content to candidates and public opinion.</li>
+                        <li>Designed a weighted scoring framework (the_waiter) combining reaction-weighted engagement, sentiment, candidate confidence, and time decay into normalised candidate scores.</li>
+                        <li>Stored each processing stage in MongoDB and orchestrated the pipeline through a Flask backend.</li>
+                        <li>Built a Streamlit dashboard with Pandas + Plotly to visualise candidate scores, sentiment, and engagement trends.</li>
                     </ul>
 
                     <div class="mt-5 flex flex-wrap gap-3 font-mono text-sm">
-                        <a href="research/election-prediction.html"
-                           class="rounded-lg border border-neon-300/50 bg-neon-400/10 px-4 py-2 text-neon-200 hover:border-neon-300 hover:bg-neon-400/20">
-                            Read the full breakdown →
-                        </a>
                         <a href="https://github.com/d42kw01f/s0m3m0" target="_blank"
                            class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
                             Source Code ↗
