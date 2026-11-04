@@ -13,7 +13,7 @@
   {
     "slug": "android-epassbook-reverse-engineering",
     "title": "What I Found Inside a Famous ePassbook App in Sri Lanka",
-    "description": "I opened an archived Android APK to practise reverse engineering. One small search led me through broken TLS checks, embedded credentials, local encryption, logs, and a legacy request format.",
+    "description": "I opened a banking Android APK to practise reverse engineering. One small search led me through broken TLS checks, embedded credentials, local encryption, logs, and a weak request encryption format.",
     "date": "2026-08-13",
     "category": "Mobile Security",
     "tags": ["android", "reverse-engineering", "mobile-security", "jadx", "apktool"],

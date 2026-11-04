@@ -1,4 +1,4 @@
-> This an old story of mine, that is about an Android release from one of the most famous banks in Sri Lanka that I studied in my own lab. I have removed the bank's name, package name, servers, API paths, credentials, certificate details, and all personal data. I used only my own test environment and test data. This is **not** a review of the current version of the app.
+> This is about an Android app from one of the most famous banks in Sri Lanka that I studied in my own lab. I have removed the bank's name, package name, servers, API paths, credentials, certificate details, and all personal data. I used only my own test environment and test data.
 
 ## Background
 
@@ -31,7 +31,7 @@ Select-String -Path .\decoded\AndroidManifest.xml -Pattern 'versionName|versionC
 
 I kept the full hash in my private notes. The screenshot below shows only part of it because a complete APK hash can sometimes be used to identify the original application.
 
-![The archived APK was version 1.4.4, versionCode 68; its hash is shortened for privacy](assets/01-artifact-identity.png)
+![The APK was version 1.4.4, versionCode 68; its hash is shortened for privacy](assets/01-artifact-identity.png)
 
 At this point, I had no finding. I only had a clearly identified target and a question: **what is this app doing behind the screens I can see?**
 
@@ -185,7 +185,7 @@ The process looked like this:
 3. Wrap the DES key with an RSA public key bundled in the APK.
 4. Send the encrypted message, wrapped key, and a hash together.
 
-![The older request format used DES for the payload and RSA PKCS1 v1.5 to wrap its key](assets/04-request-envelope.png)
+![The request format used DES for the payload and RSA PKCS1 v1.5 to wrap its key](assets/04-request-envelope.png)
 
 This was interesting from a reverse-engineering point of view because I had to follow several helpers before the full design became visible.
 
