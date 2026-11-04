@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PoliticaLens: an AI-driven research project exploring how social media discussions, public sentiment, and online engagement can help identify political trends and estimate electoral support." />
+    <link rel="icon" type="image/png" href="/assets/images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/assets/images/site.webmanifest" />
+    <title>PoliticaLens | Dakshitha Perera</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New","monospace"],
+                    },
+                    colors: {
+                        ink: { 950:"#05070A", 900:"#070A15", 800:"#0A0F1B" },
+                        neon: { 400:"#8b5cf6", 300:"#a78bfa", 200:"#c4b5fd" }
+                    },
+                    boxShadow: {
+                        glow:"0 0 0 1px rgba(139,92,246,.25), 0 0 28px rgba(139,92,246,.15)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- KaTeX: renders the equations in the weighting section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+    <style>
+        .math-block{margin:1rem 0;padding:.9rem 1rem;overflow-x:auto;overflow-y:hidden;border:1px solid #1e293b;border-radius:.75rem;background:rgba(5,7,10,.6);color:#e2e8f0}
+        .math-block .katex-display{margin:0}
+        .katex{font-size:1.05em}
+    </style>
+</head>
+
+<body class="bg-ink-950 text-slate-100">
+<div class="relative min-h-screen grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-950 to-ink-950"></div>
+
+    <!-- NAV -->
+    <header class="relative z-10">
+        <nav class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+            <a href="/index.html" class="font-mono tracking-tight text-lg">
+                <span class="text-neon-300">~/</span>dakshitha
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-slate-300">
+                <a class="hover:text-neon-200" href="/experience.html">Experience</a>
+                <a class="hover:text-neon-200" href="/skills.html">Skills</a>
+                <a class="text-neon-200" href="/research.html">Research</a>
+                <a class="hover:text-neon-200" href="/dev.html">Dev</a>
+                <a class="hover:text-neon-200" href="/writeups.html">Write-ups</a>
+
+                <button type="button"
+                        onclick="window.location.href='/contact.html'"
+                        class="rounded-lg border border-slate-700/70 px-3 py-1.5
+               hover:border-neon-300/60 hover:text-neon-200">
+                    Contact
+                </button>
+            </div>
+
+            <button id="menuBtn"
+                    class="md:hidden rounded-lg border border-slate-700/70 px-3 py-2 font-mono text-sm"
+                    type="button">
+                Menu
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden mx-auto max-w-6xl px-4 pb-4">
+            <div class="rounded-xl border border-slate-800 bg-ink-900/60 p-4 font-mono text-sm text-slate-300">
+                <div class="flex flex-col gap-3">
+                    <a class="hover:text-neon-200" href="/experience.html">Experience</a>
+                    <a class="hover:text-neon-200" href="/skills.html">Skills</a>
+                    <a class="text-neon-200" href="/research.html">Research</a>
+                    <a class="hover:text-neon-200" href="/dev.html">Dev</a>
+                    <a class="hover:text-neon-200" href="/writeups.html">Write-ups</a>
+                    <button type="button"
+                            onclick="window.location.href='/contact.html'"
+                            class="rounded-lg border border-slate-700/70 px-3 py-1.5
+               hover:border-neon-300/60 hover:text-neon-200">
+                        Contact
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="relative z-10 mx-auto max-w-4xl px-4 pb-16">
+
+        <a href="/research.html" class="font-mono text-sm text-slate-400 hover:text-neon-200">← all research</a>
+
+        <article class="mt-4 rounded-2xl border border-slate-800 bg-ink-900/40 p-6 md:p-10 shadow-glow scanline">
+
+            <p class="font-mono text-neon-300 text-sm">research / project</p>
+            <h1 class="mt-3 font-mono text-3xl md:text-4xl leading-tight">PoliticaLens</h1>
+            <p class="mt-2 font-mono text-base md:text-lg text-slate-300">
+                AI-Powered Electoral Prediction Through Multi-Platform Social Media Analysis
+            </p>
+
+            <p class="mt-5 max-w-2xl text-slate-300 leading-relaxed">
+                An AI-driven research project exploring how social media discussions, public sentiment, and
+                online engagement can help identify political trends and estimate electoral support.
+            </p>
+
+            <!-- Tech chips -->
+            <div class="mt-5 flex flex-wrap gap-2 font-mono text-xs">
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Python</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">NLP</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Machine Learning</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Sentiment Analysis</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Puppeteer + TypeScript</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Flask</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">MongoDB</span>
+                <span class="rounded border border-slate-800 bg-ink-950/60 px-2 py-1 text-slate-400">Streamlit</span>
+            </div>
+
+            <!-- Links -->
+            <div class="mt-6 flex flex-wrap gap-3 font-mono text-sm">
+                <a href="https://github.com/d42kw01f/s0m3m0" target="_blank" rel="noopener noreferrer"
+                   class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                    Source Code ↗
+                </a>
+                <a href="https://huggingface.co/d42kw01f/the_poli" target="_blank" rel="noopener noreferrer"
+                   class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                    Political Model ↗
+                </a>
+                <a href="https://huggingface.co/d42kw01f/the_candi" target="_blank" rel="noopener noreferrer"
+                   class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                    Candidate Model ↗
+                </a>
+            </div>
+
+            <!-- Body -->
+            <div class="mt-10 space-y-10 max-w-2xl">
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">Project overview</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        PoliticaLens is an experimental political intelligence and election forecasting system
+                        developed to investigate the relationship between online public opinion and real-world
+                        electoral behaviour, with a particular focus on Sri Lankan politics.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The project combines web scraping, Natural Language Processing (NLP), machine learning,
+                        sentiment analysis, and statistical weighting to collect, analyse, and interpret political
+                        content from multiple online platforms.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Unlike approaches that rely on a single social media platform, PoliticaLens utilises
+                        information from Facebook, YouTube, Reddit, Twitter (as it was known during the research
+                        period), and online news platforms (HiruNews, AdaDerana, NewsFirst), providing a broader view
+                        of digital political discourse.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">Its ultimate research question is:</p>
+                    <blockquote class="mt-3 border-l-2 border-neon-300/60 bg-neon-400/5 rounded-r-xl px-5 py-4 text-slate-300 italic">
+                        Can patterns in online political discussions, sentiment, and audience engagement provide
+                        useful indicators of candidate popularity and electoral trends?
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">How PoliticaLens works under the hood</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The system is organised into a multi-stage data collection, AI processing, and analytics pipeline.
+                    </p>
+                    <figure class="mt-5">
+                        <div class="overflow-x-auto rounded-xl border border-slate-800 bg-[#081323]">
+                            <a href="/research/assets/politicalens-architecture.svg" target="_blank" rel="noopener noreferrer" class="block">
+                                <img src="/research/assets/politicalens-architecture.svg"
+                                     alt="PoliticaLens architecture: data sources (Facebook, YouTube, Reddit, Twitter, online news) flow through platform collectors, normalization and MongoDB, then political-content classification, enrichment, sentiment analysis and candidate identification, into weighted indicators, a research dashboard, and exploratory electoral trend signals."
+                                     class="block h-auto w-full min-w-[1100px]" loading="lazy" />
+                            </a>
+                        </div>
+                        <figcaption class="mt-2 flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-slate-500">
+                            <span>PoliticaLens architecture, from data sources to exploratory trend signals.</span>
+                            <a href="/research/assets/politicalens-architecture.svg" target="_blank" rel="noopener noreferrer" class="text-neon-300 hover:text-neon-200">Open full size ↗</a>
+                        </figcaption>
+                    </figure>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">1 · Multi-platform data acquisition</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        PoliticaLens collects political posts, news articles, discussions, and engagement data from
+                        several online sources, including:
+                    </p>
+                    <ul class="mt-3 list-disc pl-5 text-slate-300 space-y-2 leading-relaxed">
+                        <li><strong class="text-slate-100">Facebook:</strong> political page posts, public discussions, comments, reactions, shares, and hashtags.</li>
+                        <li><strong class="text-slate-100">YouTube:</strong> political video discussions and audience comments.</li>
+                        <li><strong class="text-slate-100">Reddit:</strong> political posts, community discussions, and public reactions.</li>
+                        <li><strong class="text-slate-100">Twitter:</strong> political tweets, hashtags, and public conversations.</li>
+                        <li><strong class="text-slate-100">Online news:</strong> political news articles and associated discussion data from Sri Lankan news sources.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The data collection architecture primarily uses Python 3, Node.js, TypeScript, and Puppeteer
+                        for browser automation and web scraping, alongside source-specific collection components.
+                        Python-based Flask endpoints coordinate scraping operations where required.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Collected information is structured and stored in MongoDB, including content, timestamps,
+                        source information, and available engagement metadata.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">2 · AI-based political content detection</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Not every collected post or discussion is politically relevant. To reduce noise, PoliticaLens
+                        uses a trained NLP classification model called
+                        <a href="https://huggingface.co/d42kw01f/the_poli" target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-neon-200 hover:text-neon-300">the_poli</a>
+                        to distinguish political content from non-political content.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        This stage identifies relevant records for deeper analysis, reducing unnecessary processing and
+                        allowing the system to focus on election-related discussions.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">3 · Detailed content and engagement extraction</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        For politically relevant content, the pipeline performs additional extraction to collect
+                        detailed information. This includes comments, reaction distributions, and engagement metrics
+                        such as likes and shares, depending on the source platform.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        These signals provide context beyond the original post. Two posts mentioning the same candidate
+                        may attract different levels and types of audience interaction, potentially indicating
+                        different degrees of online attention or public sentiment.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">4 · Sentiment analysis and candidate identification</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The processed content is passed through machine learning components responsible for two
+                        analytical tasks:
+                    </p>
+                    <ul class="mt-3 list-disc pl-5 text-slate-300 space-y-2 leading-relaxed">
+                        <li>Sentiment analysis (<code class="font-mono text-sm text-neon-200">the_senti</code>): estimating the sentiment expressed in political posts, news articles, and comments.</li>
+                        <li>Candidate identification (<a href="https://huggingface.co/d42kw01f/the_candi" target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-neon-200 hover:text-neon-300">the_candi</a>): identifying the political candidates associated with the content, including Anura Kumara Dissanayake, Sajith Premadasa, and Ranil Wickremesinghe in the project's election-specific analysis.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The system also incorporates translation functionality to support multilingual political
+                        content, particularly relevant to Sri Lanka's Sinhala, Tamil, and English language environment.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The resulting predictions provide candidate attribution and sentiment signals for the weighting
+                        algorithm.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">5 · Weighted political support analysis</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        A central component of PoliticaLens is its candidate-weighting mechanism, implemented through a
+                        processing component named <code class="font-mono text-sm text-neon-200">the_waiter</code>.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Rather than treating every political mention or social media interaction equally, the algorithm
+                        combines engagement metrics, candidate classification confidence, sentiment scores, and
+                        time-based decay to estimate candidate-related support signals.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The following mathematical framework describes an earlier implementation of the project's
+                        weighting algorithm.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.1 · Reaction-weighted engagement</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Different social media reactions can communicate different responses to political content. The
+                        algorithm assigns distinct coefficients to supported reaction types.
+                    </p>
+                    <div class="mt-4 overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-sm">
+                            <thead class="bg-ink-900/80 font-mono text-xs text-neon-200">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-medium">Reaction</th>
+                                    <th class="px-4 py-3 text-right font-medium">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300 font-mono">
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Like</td><td class="px-4 py-2.5 text-right">+0.100</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Love / Heart</td><td class="px-4 py-2.5 text-right">+0.100</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Haha</td><td class="px-4 py-2.5 text-right">−0.050</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Wow</td><td class="px-4 py-2.5 text-right">+0.005</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Angry</td><td class="px-4 py-2.5 text-right">−0.100</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-2.5 font-sans text-slate-100">Sad</td><td class="px-4 py-2.5 text-right">−0.005</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-4 text-slate-300 leading-relaxed">The weighted reaction score for post \(p\) is:</p>
+                    <div class="math-block">$$R_p=\sum_{r\in\mathcal R}w_r\,n_{p,r}$$</div>
+                    <p class="text-slate-300 leading-relaxed">Expanding the weighted sum:</p>
+                    <div class="math-block">$$R_p=0.10L+0.10H-0.05Ha+0.005W-0.10A-0.005Sa$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(L,H,Ha,W,A,Sa\) represent the respective reaction counts.</li>
+                        <li>\(w_r\) represents the coefficient assigned to reaction type \(r\).</li>
+                        <li>\(n_{p,r}\) represents the number of reactions of that type.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The coefficients are heuristic choices from the research implementation rather than empirically
+                        established probabilities of electoral support.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.2 · Post engagement score</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The algorithm combines reaction activity, shares, and comments into a post-level engagement score.
+                    </p>
+                    <div class="math-block">$$E_p=0.25\,N(Sh_p)+0.25\,N(Co_p)+N(|R_p|)$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(E_p\) is the combined engagement score.</li>
+                        <li>\(Sh_p\) represents the number of shares.</li>
+                        <li>\(Co_p\) represents the number of comments.</li>
+                        <li>\(R_p\) is the reaction-weighted score.</li>
+                        <li>\(N(x)\) denotes the metric-normalisation operation.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Normalising engagement measurements helps make metrics with different numerical scales more
+                        comparable before combining them.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.3 · Comment engagement score</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Comments are processed separately because they may express political opinions that differ from
+                        the original post. For each comment \(j\), the engagement score is calculated using its
+                        reactions and replies:
+                    </p>
+                    <div class="math-block">$$E_j=0.60\,N(CR_j)+0.40\,N(RP_j)$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(CR_j\) represents comment reactions.</li>
+                        <li>\(RP_j\) represents comment replies.</li>
+                        <li>\(E_j\) is the resulting comment engagement score.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        This allows the system to consider audience discussion independently from the sentiment of the
+                        parent content.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.4 · Time-decay function</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Political discussions are time-sensitive. Recent engagement may provide a more relevant signal of
+                        current political sentiment than older activity. To account for this, the algorithm applies
+                        exponential time decay.
+                    </p>
+                    <div class="math-block">$$D(t)=e^{-\lambda t}$$</div>
+                    <p class="text-slate-300 leading-relaxed">The earlier implementation used a seven-day half-life:</p>
+                    <div class="math-block">$$\lambda=\frac{\ln 2}{7}$$</div>
+                    <p class="text-slate-300 leading-relaxed">Therefore:</p>
+                    <div class="math-block">$$D(t)=2^{-t/7}$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(D(t)\) is the time-decay factor.</li>
+                        <li>\(t\) is the age of the content in days.</li>
+                        <li>\(\lambda\) is the decay constant.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Under this function, the contribution of a post falls to approximately 50% of its original value
+                        after seven days and 25% after fourteen days, assuming its other scoring factors remain unchanged.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.5 · Candidate-specific post weight</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Each political post is evaluated against the candidates identified by the candidate
+                        classification model. The candidate-specific contribution is calculated as:
+                    </p>
+                    <div class="math-block">$$W_{p,c}=E_p\times P_{p,c}\times S_p\times D_p$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(W_{p,c}\) is the contribution of post \(p\) to candidate \(c\).</li>
+                        <li>\(E_p\) is the post engagement score.</li>
+                        <li>\(P_{p,c}\) is the candidate classification confidence.</li>
+                        <li>\(S_p\) is the sentiment score.</li>
+                        <li>\(D_p\) is the time-decay factor.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The weighting process links a candidate's relevance to the content with the sentiment expressed,
+                        the engagement received, and the age of the discussion.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.6 · Candidate-specific comment weight</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Each analysed comment contributes a separate score using the same general principle:
+                    </p>
+                    <div class="math-block">$$W_{j,c}=E_j\times P_{j,c}\times S_j\times D_j$$</div>
+                    <p class="text-slate-300 leading-relaxed">
+                        Where the variables represent the corresponding engagement, candidate confidence, sentiment, and
+                        time-decay measurements for comment \(j\).
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Separately evaluating comments allows the algorithm to capture differences between the viewpoint
+                        expressed in a post and the reactions expressed by its audience.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.7 · Aggregated candidate score</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The post-level and comment-level contributions are combined to produce a candidate score for each
+                        analysed content item. For a post and its associated comments:
+                    </p>
+                    <div class="math-block">$$W_{d,c}=W_{p,c}+\sum_{j\in C(p)}W_{j,c}$$</div>
+                    <p class="text-slate-300 leading-relaxed">
+                        Where \(C(p)\) represents the collection of analysed comments associated with post \(p\).
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">The aggregate candidate weight across the analysed dataset is:</p>
+                    <div class="math-block">$$T_c=\sum_{d=1}^{N}W_{d,c}$$</div>
+                    <p class="text-slate-300 leading-relaxed">Where:</p>
+                    <ul class="mt-2 list-disc pl-5 text-slate-300 space-y-1.5 leading-relaxed">
+                        <li>\(T_c\) is the total accumulated score for candidate \(c\).</li>
+                        <li>\(N\) is the number of analysed content records.</li>
+                        <li>\(W_{d,c}\) is the stored candidate weight for record \(d\).</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        These accumulated values are stored and retrieved from MongoDB using the
+                        <code class="font-mono text-sm text-neon-200">pt_the_waiter.total_candidate_weights</code> structure.
+                    </p>
+
+                    <h3 class="mt-8 font-mono text-base text-neon-200">5.8 · Normalised candidate weights</h3>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        An earlier implementation also expressed candidate weights on a relative scale using the sum of
+                        absolute candidate scores:
+                    </p>
+                    <div class="math-block">$$\widehat W_c=\frac{T_c}{\sum_{k\in C}|T_k|}\times100$$</div>
+                    <p class="text-slate-300 leading-relaxed">
+                        Where \(C\) represents the candidates being compared. This normalisation is defined when the
+                        denominator is nonzero.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Because negative sentiment can produce negative candidate weights, the resulting values can also be
+                        negative. Consequently, they represent relative signed sentiment contributions, not electoral
+                        vote-share percentages.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The candidate with the highest aggregate score can be identified using:
+                    </p>
+                    <div class="math-block">$$c^*=\operatorname*{arg\,max}_{c\in C}T_c$$</div>
+                    <p class="text-slate-300 leading-relaxed">
+                        This indicates the candidate with the strongest aggregate score under the selected weighting
+                        framework, rather than establishing who would win an actual election.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">6 · Analytics and visualisation</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The final stage converts processed information into interpretable analytics. A Python-based
+                        dashboard prototype built with Streamlit, Pandas, and Plotly supports the exploration of:
+                    </p>
+                    <ul class="mt-3 list-disc pl-5 text-slate-300 space-y-2 leading-relaxed">
+                        <li>Aggregate candidate scores and candidate distributions.</li>
+                        <li>Sentiment score distributions.</li>
+                        <li>Audience reaction patterns.</li>
+                        <li>Highly engaged political content.</li>
+                        <li>Comment sentiment.</li>
+                        <li>Political content activity over time.</li>
+                    </ul>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The dashboard allows trends to be examined visually and provides a foundation for a more
+                        comprehensive web-based political intelligence platform.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">Technology stack</h2>
+                    <div class="mt-4 overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-sm">
+                            <thead class="bg-ink-900/80 font-mono text-xs text-neon-200">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-medium">Layer</th>
+                                    <th class="px-4 py-3 text-left font-medium">Technologies</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Data collection</td><td class="px-4 py-3">Python 3, TypeScript, Node.js, Puppeteer</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Backend orchestration</td><td class="px-4 py-3">Python, Flask</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Data storage</td><td class="px-4 py-3">MongoDB, Mongoose, PyMongo</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">AI and NLP</td><td class="px-4 py-3">Python, machine learning classification models, NLP</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Analytical processing</td><td class="px-4 py-3">Sentiment analysis, candidate classification, weighted scoring, temporal decay</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Data visualisation</td><td class="px-4 py-3">Streamlit, Pandas, Plotly</td></tr>
+                                <tr class="border-t border-slate-800"><td class="px-4 py-3 text-slate-100">Web application direction</td><td class="px-4 py-3">Nuxt, TypeScript, Tailwind CSS</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">Research objectives</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        PoliticaLens explores whether AI can extract meaningful political signals from large volumes of
+                        unstructured online data and whether those signals may be useful in understanding electoral behaviour.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The research focuses on three connected challenges: identifying politically relevant content,
+                        interpreting sentiment and candidate preferences, and evaluating whether aggregated online
+                        indicators correlate with electoral trends.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        By bringing together information from multiple digital platforms, the system also provides an
+                        opportunity to investigate how political discourse differs between online communities.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">Research limitations</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Social media engagement does not directly represent electoral support. Online audiences are not
+                        statistically representative of the voting population, and political discussion can be influenced
+                        by coordinated campaigns, automated accounts, platform algorithms, and demographic differences.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The weighting coefficients are experimental modelling choices. Their effectiveness and reliability
+                        require independent evaluation, including sensitivity analysis and comparison against historical
+                        election data.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Additionally, platform-specific differences in engagement behaviour and data availability can
+                        affect the comparability of calculated scores.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Consequently, PoliticaLens is an experimental research system rather than a validated election
+                        prediction service. Establishing reliable forecasting accuracy would require comparisons with
+                        official election results, representative polling data, and rigorous historical testing.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-mono text-xl text-slate-100">Project significance</h2>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        PoliticaLens demonstrates the integration of automated data acquisition, machine learning,
+                        multilingual text processing, mathematical weighting, and interactive analytics into a political
+                        research pipeline.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        The project investigates how AI-based content classification and quantitative engagement modelling
+                        can be combined to analyse political discussion at scale.
+                    </p>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                        Beyond electoral analysis, its architecture illustrates how AI-driven systems can transform large
+                        volumes of unstructured online information into measurable indicators that support research into
+                        public opinion, digital discourse, and political communication.
+                    </p>
+                </section>
+
+            </div>
+
+            <!-- Footer links -->
+            <div class="mt-12 border-t border-slate-800 pt-6">
+                <div class="flex flex-wrap gap-3 font-mono text-sm">
+                    <a href="https://github.com/d42kw01f/s0m3m0" target="_blank" rel="noopener noreferrer"
+                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                        Source Code ↗
+                    </a>
+                    <a href="/research.html"
+                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                        ← All research
+                    </a>
+                    <a href="/contact.html"
+                       class="rounded-lg border border-slate-700 px-4 py-2 hover:border-neon-300/60 hover:text-neon-200">
+                        Get in touch
+                    </a>
+                </div>
+            </div>
+        </article>
+
+        <footer class="mt-14 border-t border-slate-800 pt-6 text-sm text-slate-500">
+            <span class="font-mono">© <span id="year"></span> Dakshitha Perera | d42kw01f</span>
+        </footer>
+
+    </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
