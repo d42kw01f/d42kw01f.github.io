@@ -1,5 +1,15 @@
 [
   {
+    "slug": "hemas-lab-report-idor",
+    "title": "One Number in a URL Exposed Patients' Medical Reports",
+    "description": "No clever hacking. I looked at a lab report URL, changed one number, and another patient's report opened without a login.",
+    "date": "2026-11-24",
+    "category": "Web Security",
+    "tags": ["web-security", "idor", "access-control", "privacy", "responsible-disclosure"],
+    "readingTime": "2 min",
+    "draft": false
+  },
+  {
     "slug": "android-fare-estimation-trust-boundary",
     "title": "How I Hacked PickMe Fare",
     "description": "I followed two ordinary route metrics through PickMe's Android app, changed a controlled fare estimate, responsibly reported the issue, and watched it get fixed.",

@@ -16,7 +16,7 @@ writeups/
 
 1. Create the folder `writeups/<slug>/` and drop `index.md` inside it. Put images in
    `writeups/<slug>/assets/` and reference them with relative paths: `![Alt text](assets/01-thing.png)`.
-   The alt text is rendered as the figure caption, so make it descriptive.
+   Each image is captioned `Screenshot N: alt text` (numbered automatically), so make the alt text descriptive.
 
 2. Add an entry to the **top** of `writeups/index.json`:
 

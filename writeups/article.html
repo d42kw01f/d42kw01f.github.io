@@ -123,8 +123,8 @@
                 <!-- Footer -->
                 <div id="articleFooter" class="mt-12 hidden border-t border-slate-800 pt-6">
                     <p class="text-xs leading-relaxed text-slate-500">
-                        Published for educational purposes. Testing was limited to artifacts and all identifying details, credentials, and third-party
-                        data have been removed. Nothing here is an assessment of any current product release.
+                        Published for educational purposes. Personal details, credentials, and third-party data have been removed.
+                        Each write-up describes only what was observed at the time. Nothing here is an assessment of any current product release.
                     </p>
                     <div class="mt-5 flex flex-wrap gap-3 font-mono text-sm">
                         <a href="../writeups.html"
@@ -235,7 +235,7 @@
         const base = meta.slug + "/";
 
         // Relative asset paths in the Markdown resolve against the write-up folder.
-        bodyEl.querySelectorAll("img").forEach(img => {
+        bodyEl.querySelectorAll("img").forEach((img, i) => {
             const src = img.getAttribute("src") || "";
             if (src && !/^[a-z][a-z0-9+.-]*:/i.test(src) && !src.startsWith("/") && !src.startsWith("../")) {
                 img.setAttribute("src", base + src);
@@ -243,7 +243,7 @@
             img.setAttribute("loading", "lazy");
             img.setAttribute("decoding", "async");
 
-            // Wrap in a figure and use the alt text as a caption.
+            // Wrap in a figure and caption it "Screenshot N: alt text".
             const alt = img.getAttribute("alt");
             const parent = img.parentElement;
             const fig = document.createElement("figure");
@@ -257,7 +257,7 @@
             fig.appendChild(link);
             if (alt) {
                 const cap = document.createElement("figcaption");
-                cap.textContent = alt;
+                cap.textContent = `Screenshot ${i + 1}: ${alt}`;
                 fig.appendChild(cap);
             }
         });
